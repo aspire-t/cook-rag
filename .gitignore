@@ -1,0 +1,62 @@
+python __version__.py
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 环境变量
+.env
+.env.local
+.env.*.local
+
+# 敏感数据
+*.pem
+*.key
+secrets/
+
+# 测试
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# 临时文件
+*.tmp
+*.bak
+.DS_Store
+
+# Harness 运行时
+harness/artifacts/*.md
+harness/contracts/*.json
+harness/logs/
+
+# Docker
+docker-compose.override.yml

@@ -19,5 +19,7 @@ from .report import Report
 from .enterprise import Enterprise, EnterpriseUser
 from .standard_recipe import StandardRecipe
 from .inventory import Inventory, InventoryTransaction
+from .supplier import Supplier
+from .purchase_order import PurchaseOrder
 
-__all__ = ["Base", "User", "Recipe", "RecipeIngredient", "RecipeStep", "Favorite", "SearchHistory", "Report", "Enterprise", "EnterpriseUser", "StandardRecipe", "Inventory", "InventoryTransaction"]
+__all__ = ["Base", "User", "Recipe", "RecipeIngredient", "RecipeStep", "Favorite", "SearchHistory", "Report", "Enterprise", "EnterpriseUser", "StandardRecipe", "Inventory", "InventoryTransaction", "Supplier", "PurchaseOrder"]

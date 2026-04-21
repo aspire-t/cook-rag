@@ -433,7 +433,7 @@
     "id": "33",
     "subject": "B 端库存管理",
     "description": "库存表、入库/出库、库存预警、保质期管理",
-    "status": "pending",
+    "status": "completed",
     "sprint": "B 端 Phase 2",
     "priority": "P2",
     "dependencies": [

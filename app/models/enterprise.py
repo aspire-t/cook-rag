@@ -1,5 +1,6 @@
 """Enterprise 模型 - B 端企业用户."""
 
+from typing import TYPE_CHECKING
 from datetime import datetime, timezone
 from sqlalchemy import String, Boolean, DateTime, ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -7,6 +8,10 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 from . import Base
+
+if TYPE_CHECKING:
+    from .supplier import Supplier
+    from .purchase_order import PurchaseOrder
 
 
 class Enterprise(Base):
@@ -80,6 +85,18 @@ class Enterprise(Base):
 
     # 库存交易记录
     inventory_transactions: Mapped[list["InventoryTransaction"]] = relationship(
+        back_populates="enterprise",
+        cascade="all, delete-orphan",
+    )
+
+    # 供应商
+    suppliers: Mapped[list["Supplier"]] = relationship(
+        back_populates="enterprise",
+        cascade="all, delete-orphan",
+    )
+
+    # 采购订单
+    purchase_orders: Mapped[list["PurchaseOrder"]] = relationship(
         back_populates="enterprise",
         cascade="all, delete-orphan",
     )

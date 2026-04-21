@@ -21,7 +21,7 @@
 | Sprint 8 | 3 | 3 | 100% |
 | Sprint 9 | 3 | 3 | 100% |
 | Sprint 10 | 1 | 1 | 100% |
-| B 端 Phase | 4 | 2 | 50% |
+| B 端 Phase | 4 | 3 | 75% |
 | **合计** | **34** | **33** | **97.1%** |
 
 ---
@@ -562,6 +562,47 @@
 **测试过程**:
 1. pytest tests/test_enterprise.py -v: 24 passed
 2. 全部测试：474 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - B 端 Phase - Task 33
+
+**任务**: B 端库存管理
+
+**完成内容**:
+- 创建 Inventory 模型 (app/models/inventory.py)
+  - 核心字段：enterprise_id, ingredient_name, quantity, unit
+  - 预警字段：min_stock, max_stock
+  - 保质期：expiry_date, batch_number
+  - 库位：location
+- 创建 InventoryTransaction 模型 (app/models/inventory_transaction.py)
+  - 交易类型：stock_in/stock_out/adjustment/expiry
+  - 变动快照：before_quantity, after_quantity
+- 创建 Alembic 迁移 (alembic/versions/006_inventory.py)
+  - 创建 inventory 和 inventory_transactions 表
+  - 外键约束（CASCADE 删除）
+  - 索引优化
+- 创建库存服务 (app/services/inventory_service.py)
+  - 入库/出库操作
+  - 库存预警检查（不足/过剩）
+  - 保质期管理（即将过期/已过期）
+  - 交易历史记录
+- 创建库存 API (app/api/v1/inventory.py)
+  - GET /inventory - 库存列表
+  - POST /inventory/stock-in - 入库
+  - POST /inventory/stock-out - 出库
+  - GET /inventory/alert - 库存预警
+  - GET /inventory/transactions - 交易历史
+- 更新路由注册 (app/api/routes.py)
+- 更新模型导出 (app/models/__init__.py)
+- 更新关联关系 (app/models/enterprise.py, app/models/user.py)
+- 创建测试 tests/test_inventory.py（26 个测试）
+
+**测试过程**:
+1. pytest tests/test_inventory.py -v: 26 passed
+2. 全部测试：520 passed, 0 failed
 
 **提交记录**: 待提交
 

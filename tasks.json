@@ -15,10 +15,13 @@
     "id": "2",
     "subject": "实现数据库 DDL 和数据迁移",
     "description": "创建 PostgreSQL 表结构（users、recipes、recipe_ingredients、recipe_steps），配置 Alembic 数据迁移",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 1",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": [],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "3",

@@ -10,8 +10,8 @@
 
 | Sprint | 任务数 | 完成数 | 进度 |
 |--------|--------|--------|------|
-| Sprint 0 | 1 | 0 | 0% |
-| Sprint 1 | 2 | 0 | 0% |
+| Sprint 0 | 1 | 1 | 100% |
+| Sprint 1 | 2 | 1 | 50% |
 | Sprint 2 | 3 | 0 | 0% |
 | Sprint 3 | 3 | 0 | 0% |
 | Sprint 4 | 2 | 0 | 0% |
@@ -22,7 +22,7 @@
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **0** | **0%** |
+| **合计** | **34** | **2** | **5.9%** |
 
 ---
 
@@ -180,6 +180,26 @@
 - 定义错误码体系
 
 **测试过程**: N/A（文档阶段）
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 1 - Task 2
+
+**任务**: 实现数据库 DDL 和数据迁移
+
+**完成内容**:
+- 创建 Alembic 迁移配置（alembic.ini, env.py, script.py.mako）
+- 创建 6 个数据模型（User, Recipe, RecipeIngredient, RecipeStep, Favorite）
+- 创建初始迁移文件 001_initial.py
+- 实现 PostgreSQL DDL（users、recipes、recipe_ingredients、recipe_steps 表）
+- 配置异步数据库连接（asyncpg + SQLAlchemy 2.0）
+
+**测试过程**:
+1. pytest tests/test_database.py -v: 50 passed, 0 failed
+2. 模型导入验证：通过
+3. 全部测试（test_database.py + test_infra.py）：81 passed, 0 failed
 
 **提交记录**: 待提交
 

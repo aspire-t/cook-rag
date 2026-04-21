@@ -1,0 +1,308 @@
+[
+  {
+    "id": "1",
+    "subject": "搭建项目脚手架和 Docker Compose 环境",
+    "description": "创建项目基础结构，配置 Docker Compose 开发环境（PostgreSQL、Redis、Qdrant、Elasticsearch）",
+    "status": "pending",
+    "sprint": "Sprint 0",
+    "priority": "P0",
+    "dependencies": []
+  },
+  {
+    "id": "2",
+    "subject": "实现数据库 DDL 和数据迁移",
+    "description": "创建 PostgreSQL 表结构（users、recipes、recipe_ingredients、recipe_steps），配置 Alembic 数据迁移",
+    "status": "pending",
+    "sprint": "Sprint 1",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "3",
+    "subject": "实现 JWT 认证模块",
+    "description": "实现 JWT Token 颁发、验证、刷新、黑名单功能，支持微信小程序登录",
+    "status": "pending",
+    "sprint": "Sprint 1",
+    "priority": "P0",
+    "dependencies": ["2"]
+  },
+  {
+    "id": "4",
+    "subject": "配置 Elasticsearch 和 IK Analyzer",
+    "description": "部署 ES 8.x，安装 IK Analyzer 分词器，创建菜谱索引，配置 BM25 参数",
+    "status": "pending",
+    "sprint": "Sprint 2",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "5",
+    "subject": "配置 Qdrant 向量索引",
+    "description": "创建 Qdrant Collection，配置四路向量（name_vec、desc_vec、step_vec、tag_vec），导入 embedding 数据",
+    "status": "pending",
+    "sprint": "Sprint 2",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "6",
+    "subject": "实现 HowToCook 数据导入流水线",
+    "description": "Markdown 解析、数据清洗、质量校验、向量化、增量导入脚本",
+    "status": "pending",
+    "sprint": "Sprint 2",
+    "priority": "P0",
+    "dependencies": ["4", "5"]
+  },
+  {
+    "id": "7",
+    "subject": "实现 ES BM25 检索服务",
+    "description": "实现 Elasticsearch 关键词检索，IK 分词查询，支持过滤条件",
+    "status": "pending",
+    "sprint": "Sprint 3",
+    "priority": "P0",
+    "dependencies": ["4"]
+  },
+  {
+    "id": "8",
+    "subject": "实现 Qdrant 向量检索服务",
+    "description": "实现四路向量召回，支持 Payload 过滤，权重配置",
+    "status": "pending",
+    "sprint": "Sprint 3",
+    "priority": "P0",
+    "dependencies": ["5"]
+  },
+  {
+    "id": "9",
+    "subject": "实现 RRF 结果融合算法",
+    "description": "实现 Reciprocal Rank Fusion 算法（k=60），合并两路召回结果，去重",
+    "status": "pending",
+    "sprint": "Sprint 3",
+    "priority": "P0",
+    "dependencies": ["7", "8"]
+  },
+  {
+    "id": "10",
+    "subject": "部署 Rerank 模型（PyTorch + MPS）",
+    "description": "本地部署 BGE-Reranker-v2-m3，PyTorch + MPS 加速，批处理推理",
+    "status": "pending",
+    "sprint": "Sprint 4",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "11",
+    "subject": "实现重排序服务",
+    "description": "集成 Rerank 模型，实现个性化加权（用户偏好、菜谱热度）",
+    "status": "pending",
+    "sprint": "Sprint 4",
+    "priority": "P0",
+    "dependencies": ["9", "10"]
+  },
+  {
+    "id": "12",
+    "subject": "实现 Redis 缓存层",
+    "description": "搜索缓存（1h TTL）、LLM 响应缓存（24h TTL）、用户画像缓存",
+    "status": "pending",
+    "sprint": "Sprint 5",
+    "priority": "P1",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "13",
+    "subject": "实现滑动窗口限流中间件",
+    "description": "基于 Redis ZSet 的滑动窗口限流，分 API 类型配置阈值",
+    "status": "pending",
+    "sprint": "Sprint 5",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "14",
+    "subject": "实现 Prompt 模板管理模块",
+    "description": "Jinja2 模板引擎，Prompt 文件加载，变量注入，Token 裁剪",
+    "status": "pending",
+    "sprint": "Sprint 5",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "15",
+    "subject": "实现 RAG 上下文管理器",
+    "description": "Redis 会话管理（30 分钟 TTL），对话历史维护，多轮对话上下文",
+    "status": "pending",
+    "sprint": "Sprint 5",
+    "priority": "P0",
+    "dependencies": ["14"]
+  },
+  {
+    "id": "16",
+    "subject": "集成通义千问 LLM API",
+    "description": "调用阿里云百炼 Qwen-Plus API，流式输出（C 端），超时重试（30s，3 次）",
+    "status": "pending",
+    "sprint": "Sprint 6",
+    "priority": "P0",
+    "dependencies": ["14", "15"]
+  },
+  {
+    "id": "17",
+    "subject": "实现三级降级策略",
+    "description": "LLM API 故障 → Web Search（Bing） → 规则引擎兜底",
+    "status": "pending",
+    "sprint": "Sprint 6",
+    "priority": "P0",
+    "dependencies": ["16"]
+  },
+  {
+    "id": "18",
+    "subject": "实现 C 端智能推荐 API",
+    "description": "POST /api/v1/c/search - 菜谱搜索，POST /api/v1/c/recommend - 个性化推荐",
+    "status": "pending",
+    "sprint": "Sprint 6",
+    "priority": "P0",
+    "dependencies": ["11", "16"]
+  },
+  {
+    "id": "19",
+    "subject": "实现菜谱详情 API",
+    "description": "GET /api/v1/c/recipes/{id} - 获取菜谱详情（食材、步骤、营养）",
+    "status": "pending",
+    "sprint": "Sprint 6",
+    "priority": "P0",
+    "dependencies": ["2"]
+  },
+  {
+    "id": "20",
+    "subject": "实现用户收藏管理 API",
+    "description": "POST/DELETE/GET /api/v1/c/favorites - 收藏/取消收藏/收藏列表",
+    "status": "pending",
+    "sprint": "Sprint 7",
+    "priority": "P1",
+    "dependencies": ["3", "19"]
+  },
+  {
+    "id": "21",
+    "subject": "实现搜索历史 API",
+    "description": "记录搜索历史，支持匿名用户（session_id），CTR 数据采集",
+    "status": "pending",
+    "sprint": "Sprint 7",
+    "priority": "P1",
+    "dependencies": ["18"]
+  },
+  {
+    "id": "22",
+    "subject": "实现 UGC 菜谱上传功能",
+    "description": "用户上传菜谱，先发后审，markdown 解析，图片上传",
+    "status": "pending",
+    "sprint": "Sprint 7",
+    "priority": "P1",
+    "dependencies": ["19"]
+  },
+  {
+    "id": "23",
+    "subject": "实现菜谱举报功能",
+    "description": "用户举报接口，5 次举报自动下架待审核",
+    "status": "pending",
+    "sprint": "Sprint 7",
+    "priority": "P1",
+    "dependencies": ["22"]
+  },
+  {
+    "id": "24",
+    "subject": "实现管理后台审核接口",
+    "description": "菜谱审核（通过/拒绝），举报处理，下架管理",
+    "status": "pending",
+    "sprint": "Sprint 8",
+    "priority": "P1",
+    "dependencies": ["22", "23"]
+  },
+  {
+    "id": "25",
+    "subject": "实现全局异常处理",
+    "description": "统一错误码体系，业务异常类，HTTP 状态码映射",
+    "status": "pending",
+    "sprint": "Sprint 8",
+    "priority": "P0",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "26",
+    "subject": "实现 Prometheus 监控指标",
+    "description": "API 延迟、QPS、错误率、限流次数、缓存命中率",
+    "status": "pending",
+    "sprint": "Sprint 8",
+    "priority": "P1",
+    "dependencies": ["1"]
+  },
+  {
+    "id": "27",
+    "subject": "配置 Grafana 仪表盘",
+    "description": "核心指标面板（QPS、P99 延迟、搜索 CTR、缓存命中率）",
+    "status": "pending",
+    "sprint": "Sprint 9",
+    "priority": "P1",
+    "dependencies": ["26"]
+  },
+  {
+    "id": "28",
+    "subject": "性能基准测试",
+    "description": "使用 locust 压测，验证性能指标（P50<200ms, P99<1s, 缓存命中率>40%）",
+    "status": "pending",
+    "sprint": "Sprint 9",
+    "priority": "P0",
+    "dependencies": ["18", "19"]
+  },
+  {
+    "id": "29",
+    "subject": "编写 API 文档",
+    "description": "OpenAPI/Swagger 文档，请求/响应示例，错误码说明",
+    "status": "pending",
+    "sprint": "Sprint 9",
+    "priority": "P1",
+    "dependencies": ["18", "19", "20"]
+  },
+  {
+    "id": "30",
+    "subject": "WebSocket 跟做模式",
+    "description": "实时步骤推送，倒计时功能，语音交互（后续迭代）",
+    "status": "pending",
+    "sprint": "Sprint 10",
+    "priority": "P2",
+    "dependencies": ["19"]
+  },
+  {
+    "id": "31",
+    "subject": "B 端企业用户管理",
+    "description": "企业表、企业 - 用户关联表，角色权限（admin/chef/manager/purchaser）",
+    "status": "pending",
+    "sprint": "B 端 Phase 1",
+    "priority": "P2",
+    "dependencies": ["3"]
+  },
+  {
+    "id": "32",
+    "subject": "B 端标准化配方生成",
+    "description": "LLM 生成 SOP、成本核算、营养成分表、过敏原信息",
+    "status": "pending",
+    "sprint": "B 端 Phase 1",
+    "priority": "P2",
+    "dependencies": ["16", "31"]
+  },
+  {
+    "id": "33",
+    "subject": "B 端库存管理",
+    "description": "库存表、入库/出库、库存预警、保质期管理",
+    "status": "pending",
+    "sprint": "B 端 Phase 2",
+    "priority": "P2",
+    "dependencies": ["31"]
+  },
+  {
+    "id": "34",
+    "subject": "B 端采购规划",
+    "description": "采购清单生成、供应商管理、采购订单",
+    "status": "pending",
+    "sprint": "B 端 Phase 2",
+    "priority": "P2",
+    "dependencies": ["32", "33"]
+  }
+]

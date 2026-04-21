@@ -20,9 +20,9 @@
 | Sprint 7 | 4 | 4 | 100% |
 | Sprint 8 | 3 | 3 | 100% |
 | Sprint 9 | 3 | 3 | 100% |
-| Sprint 10 | 1 | 0 | 0% |
+| Sprint 10 | 1 | 1 | 100% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **30** | **88.2%** |
+| **合计** | **34** | **31** | **91.2%** |
 
 ---
 
@@ -499,6 +499,36 @@
 1. pytest tests/test_benchmark.py -v: 19 passed
 2. pytest tests/test_api_docs.py -v: 20 passed
 3. 全部测试：416 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 10 - Task 30
+
+**任务**: 实现 WebSocket 跟做模式
+
+**完成内容**:
+- 创建 app/api/v1/websocket.py - WebSocket 跟做模式实现
+  - ConnectionManager: WebSocket 连接管理器
+    - active_connections: 按 recipe_id 管理多用户连接
+    - cooking_sessions: 跟做会话状态管理
+  - 跟做操作支持:
+    - start: 开始跟做，重置进度
+    - next/prev: 下一步/上一步导航
+    - pause/resume: 暂停/继续
+    - timer_start/timer_stop: 倒计时控制
+    - status: 查询当前状态
+    - complete: 完成跟做
+  - 倒计时定时器：异步任务，每秒广播剩余时间
+  - 进度跟踪：current_step、completed_steps 列表
+- 更新 app/main.py 注册 WebSocket 端点
+  - /ws/recipes/{recipe_id}/cook
+- 创建测试 tests/test_websocket.py（34 个测试）
+
+**测试过程**:
+1. pytest tests/test_websocket.py -v: 34 passed
+2. 全部测试：450 passed, 0 failed
 
 **提交记录**: 待提交
 

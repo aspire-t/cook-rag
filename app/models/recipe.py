@@ -93,6 +93,9 @@ class Recipe(Base):
     )  # pending/approved/rejected
     rejected_reason: Mapped[str | None] = mapped_column(nullable=True)
 
+    # 举报计数
+    report_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+
     # 统计
     view_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     favorite_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
@@ -123,6 +126,10 @@ class Recipe(Base):
         cascade="all, delete-orphan",
     )
     favorites: Mapped[list["Favorite"]] = relationship(
+        back_populates="recipe",
+        cascade="all, delete-orphan",
+    )
+    reports: Mapped[list["Report"]] = relationship(
         back_populates="recipe",
         cascade="all, delete-orphan",
     )

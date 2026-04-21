@@ -30,7 +30,9 @@
     "status": "completed",
     "sprint": "Sprint 1",
     "priority": "P0",
-    "dependencies": ["2"],
+    "dependencies": [
+      "2"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -42,7 +44,9 @@
     "status": "completed",
     "sprint": "Sprint 2",
     "priority": "P0",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -54,7 +58,9 @@
     "status": "completed",
     "sprint": "Sprint 2",
     "priority": "P0",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -66,7 +72,10 @@
     "status": "completed",
     "sprint": "Sprint 2",
     "priority": "P0",
-    "dependencies": ["4", "5"],
+    "dependencies": [
+      "4",
+      "5"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -78,7 +87,9 @@
     "status": "completed",
     "sprint": "Sprint 3",
     "priority": "P0",
-    "dependencies": ["4"],
+    "dependencies": [
+      "4"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -90,7 +101,9 @@
     "status": "completed",
     "sprint": "Sprint 3",
     "priority": "P0",
-    "dependencies": ["5"],
+    "dependencies": [
+      "5"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -102,7 +115,10 @@
     "status": "completed",
     "sprint": "Sprint 3",
     "priority": "P0",
-    "dependencies": ["7", "8"],
+    "dependencies": [
+      "7",
+      "8"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -114,7 +130,9 @@
     "status": "completed",
     "sprint": "Sprint 4",
     "priority": "P0",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -126,7 +144,10 @@
     "status": "completed",
     "sprint": "Sprint 4",
     "priority": "P0",
-    "dependencies": ["9", "10"],
+    "dependencies": [
+      "9",
+      "10"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -138,7 +159,9 @@
     "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P1",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -150,7 +173,9 @@
     "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P0",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -162,7 +187,9 @@
     "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P0",
-    "dependencies": ["1"],
+    "dependencies": [
+      "1"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -174,7 +201,9 @@
     "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P0",
-    "dependencies": ["14"],
+    "dependencies": [
+      "14"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -186,7 +215,10 @@
     "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["14", "15"],
+    "dependencies": [
+      "14",
+      "15"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -198,7 +230,9 @@
     "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["16"],
+    "dependencies": [
+      "16"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -210,7 +244,10 @@
     "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["11", "16"],
+    "dependencies": [
+      "11",
+      "16"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -222,7 +259,9 @@
     "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["2"],
+    "dependencies": [
+      "2"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -234,7 +273,10 @@
     "status": "completed",
     "sprint": "Sprint 7",
     "priority": "P1",
-    "dependencies": ["3", "19"],
+    "dependencies": [
+      "3",
+      "19"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -246,7 +288,9 @@
     "status": "completed",
     "sprint": "Sprint 7",
     "priority": "P1",
-    "dependencies": ["18"],
+    "dependencies": [
+      "18"
+    ],
     "started_at": "2026-04-21",
     "completed_at": "2026-04-21",
     "commit_hash": "待提交"
@@ -255,19 +299,27 @@
     "id": "22",
     "subject": "实现 UGC 菜谱上传功能",
     "description": "用户上传菜谱，先发后审，markdown 解析，图片上传",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 7",
     "priority": "P1",
-    "dependencies": ["19"]
+    "dependencies": [
+      "19"
+    ],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21"
   },
   {
     "id": "23",
     "subject": "实现菜谱举报功能",
     "description": "用户举报接口，5 次举报自动下架待审核",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 7",
     "priority": "P1",
-    "dependencies": ["22"]
+    "dependencies": [
+      "22"
+    ],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21"
   },
   {
     "id": "24",
@@ -276,7 +328,10 @@
     "status": "pending",
     "sprint": "Sprint 8",
     "priority": "P1",
-    "dependencies": ["22", "23"]
+    "dependencies": [
+      "22",
+      "23"
+    ]
   },
   {
     "id": "25",
@@ -285,7 +340,9 @@
     "status": "pending",
     "sprint": "Sprint 8",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": [
+      "1"
+    ]
   },
   {
     "id": "26",
@@ -294,7 +351,9 @@
     "status": "pending",
     "sprint": "Sprint 8",
     "priority": "P1",
-    "dependencies": ["1"]
+    "dependencies": [
+      "1"
+    ]
   },
   {
     "id": "27",
@@ -303,7 +362,9 @@
     "status": "pending",
     "sprint": "Sprint 9",
     "priority": "P1",
-    "dependencies": ["26"]
+    "dependencies": [
+      "26"
+    ]
   },
   {
     "id": "28",
@@ -312,7 +373,10 @@
     "status": "pending",
     "sprint": "Sprint 9",
     "priority": "P0",
-    "dependencies": ["18", "19"]
+    "dependencies": [
+      "18",
+      "19"
+    ]
   },
   {
     "id": "29",
@@ -321,7 +385,11 @@
     "status": "pending",
     "sprint": "Sprint 9",
     "priority": "P1",
-    "dependencies": ["18", "19", "20"]
+    "dependencies": [
+      "18",
+      "19",
+      "20"
+    ]
   },
   {
     "id": "30",
@@ -330,7 +398,9 @@
     "status": "pending",
     "sprint": "Sprint 10",
     "priority": "P2",
-    "dependencies": ["19"]
+    "dependencies": [
+      "19"
+    ]
   },
   {
     "id": "31",
@@ -339,7 +409,9 @@
     "status": "pending",
     "sprint": "B 端 Phase 1",
     "priority": "P2",
-    "dependencies": ["3"]
+    "dependencies": [
+      "3"
+    ]
   },
   {
     "id": "32",
@@ -348,7 +420,10 @@
     "status": "pending",
     "sprint": "B 端 Phase 1",
     "priority": "P2",
-    "dependencies": ["16", "31"]
+    "dependencies": [
+      "16",
+      "31"
+    ]
   },
   {
     "id": "33",
@@ -357,7 +432,9 @@
     "status": "pending",
     "sprint": "B 端 Phase 2",
     "priority": "P2",
-    "dependencies": ["31"]
+    "dependencies": [
+      "31"
+    ]
   },
   {
     "id": "34",
@@ -366,6 +443,9 @@
     "status": "pending",
     "sprint": "B 端 Phase 2",
     "priority": "P2",
-    "dependencies": ["32", "33"]
+    "dependencies": [
+      "32",
+      "33"
+    ]
   }
 ]

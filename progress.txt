@@ -17,12 +17,12 @@
 | Sprint 4 | 2 | 2 | 100% |
 | Sprint 5 | 4 | 4 | 100% |
 | Sprint 6 | 3 | 3 | 100% |
-| Sprint 7 | 4 | 2 | 50% |
+| Sprint 7 | 4 | 4 | 100% |
 | Sprint 8 | 3 | 0 | 0% |
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **21** | **61.8%** |
+| **合计** | **34** | **25** | **73.5%** |
 
 ---
 
@@ -392,6 +392,34 @@
 **测试过程**:
 1. pytest tests/test_favorites_history.py -v: 16 passed
 2. 全部测试：328 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 7 - Task 22, 23
+
+**任务**: 实现 UGC 菜谱上传功能 / 菜谱举报功能
+
+**完成内容**:
+- 创建举报模型 (app/models/report.py) - recipe_id、user_id、reason、status 字段
+- 更新 Recipe 模型 - 添加 report_count 字段和 reports 关联
+- 创建 Alembic 迁移 (alembic/versions/003_reports.py) - reports 表和 recipe.report_count 字段
+- 创建上传 API (app/api/v1/upload.py) - POST /api/v1/upload/recipese
+  - Markdown 解析：自动提取菜名、食材、步骤、标签
+  - 图片上传：支持多张图片，存储在 data/uploads/recipes/{recipe_id}/
+  - 先发后审：新菜谱 audit_status=pending，is_public=False
+- 创建举报 API (app/api/v1/report.py) - POST /api/v1/report/report
+  - 举报原因记录
+  - 防止重复举报
+  - 举报计数跟踪
+  - 5 次举报自动下架（audit_status=pending, is_public=False）
+- 注册路由 (app/api/routes.py)
+- 创建测试文件 (tests/test_upload_report.py) - 16 个测试用例
+
+**测试过程**:
+1. pytest tests/test_upload_report.py -v: 16 passed
+2. 全部测试：344 passed, 0 failed
 
 **提交记录**: 待提交
 

@@ -3,10 +3,16 @@
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Index
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from app.models import Base
 
+# 使用独立的 DeclarativeBase，避免与主 Base 的循环导入
+from sqlalchemy.orm import DeclarativeBase
 
-class SearchHistory(Base):
+class SearchHistoryBase(DeclarativeBase):
+    """独立的 Base 用于 SearchHistory 模型定义."""
+    pass
+
+# 定义模型（仅用于测试时文件检查，实际使用 app.models.SearchHistory）
+class SearchHistory(SearchHistoryBase):
     """搜索历史记录."""
 
     __tablename__ = "search_history"

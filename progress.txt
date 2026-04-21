@@ -16,13 +16,13 @@
 | Sprint 3 | 3 | 3 | 100% |
 | Sprint 4 | 2 | 2 | 100% |
 | Sprint 5 | 4 | 4 | 100% |
-| Sprint 6 | 3 | 2 | 67% |
+| Sprint 6 | 3 | 3 | 100% |
 | Sprint 7 | 4 | 0 | 0% |
 | Sprint 8 | 3 | 0 | 0% |
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **17** | **50%** |
+| **合计** | **34** | **19** | **55.9%** |
 
 ---
 
@@ -350,6 +350,27 @@
 1. pytest tests/test_llm.py -v: 13 passed
 2. pytest tests/test_fallback.py -v: 13 passed
 3. 全部测试：294 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 6 - Task 18, 19
+
+**任务**: 实现 C 端智能推荐 API / 菜谱详情 API
+
+**完成内容**:
+- 创建搜索/推荐 API (app/api/v1/search.py) - POST /search、POST /recommend
+- 创建菜谱 API (app/api/v1/recipes.py) - GET /recipes/{id}
+- 创建 API Schema (app/api/schemas.py) - 请求/响应模型定义
+- 集成混合检索 - 支持 ES + Qdrant 混合检索
+- 集成重排序 - 个性化加权推荐
+- 集成数据库 - SQLAlchemy 异步查询
+- 创建测试文件 (tests/test_api.py) - 18 个测试用例
+
+**测试过程**:
+1. pytest tests/test_api.py -v: 18 passed
+2. 全部测试：312 passed, 0 failed
 
 **提交记录**: 待提交
 

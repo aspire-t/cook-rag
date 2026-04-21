@@ -207,19 +207,25 @@
     "id": "18",
     "subject": "实现 C 端智能推荐 API",
     "description": "POST /api/v1/c/search - 菜谱搜索，POST /api/v1/c/recommend - 个性化推荐",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["11", "16"]
+    "dependencies": ["11", "16"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "19",
     "subject": "实现菜谱详情 API",
     "description": "GET /api/v1/c/recipes/{id} - 获取菜谱详情（食材、步骤、营养）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["2"]
+    "dependencies": ["2"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "20",

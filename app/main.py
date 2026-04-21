@@ -6,6 +6,7 @@ FastAPI 应用入口
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 
 from loguru import logger
@@ -13,6 +14,13 @@ from loguru import logger
 from app.api.routes import api_router
 from app.core.config import settings
 from app.core.database import engine, Base
+from app.core.exceptions import (
+    AppException,
+    validation_exception_handler,
+    http_exception_handler,
+    global_exception_handler,
+)
+from app.core.metrics import prometheus_middleware, metrics_handler
 
 
 @asynccontextmanager
@@ -69,18 +77,15 @@ async def log_requests(request: Request, call_next):
     return response
 
 
+# Prometheus 监控中间件
+app.add_middleware(prometheus_middleware)
+
+
 # 全局异常处理
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    logger.exception(f"Unhandled exception: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content={
-            "code": 2001,
-            "message": "Internal server error",
-            "detail": str(exc) if settings.DEBUG else None,
-        },
-    )
+app.add_exception_handler(AppException, app_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(HTTPException, http_exception_handler)
+app.add_exception_handler(Exception, global_exception_handler)
 
 
 # 健康检查
@@ -94,6 +99,13 @@ async def health_check():
 async def readiness_check():
     # TODO: 检查数据库、Redis、Qdrant 连接
     return {"status": "ready"}
+
+
+# Prometheus 指标端点
+@app.get("/metrics")
+async def metrics():
+    """Prometheus 指标采集端点"""
+    return metrics_handler(Request(scope={"type": "http"}))
 
 
 # 注册 API 路由

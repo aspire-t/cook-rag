@@ -325,24 +325,28 @@
     "id": "24",
     "subject": "实现管理后台审核接口",
     "description": "菜谱审核（通过/拒绝），举报处理，下架管理",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 8",
     "priority": "P1",
     "dependencies": [
       "22",
       "23"
-    ]
+    ],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21"
   },
   {
     "id": "25",
     "subject": "实现全局异常处理",
     "description": "统一错误码体系，业务异常类，HTTP 状态码映射",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 8",
     "priority": "P0",
     "dependencies": [
       "1"
-    ]
+    ],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21"
   },
   {
     "id": "26",

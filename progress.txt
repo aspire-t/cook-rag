@@ -17,12 +17,12 @@
 | Sprint 4 | 2 | 2 | 100% |
 | Sprint 5 | 4 | 4 | 100% |
 | Sprint 6 | 3 | 3 | 100% |
-| Sprint 7 | 4 | 0 | 0% |
+| Sprint 7 | 4 | 2 | 50% |
 | Sprint 8 | 3 | 0 | 0% |
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **19** | **55.9%** |
+| **合计** | **34** | **21** | **61.8%** |
 
 ---
 
@@ -371,6 +371,27 @@
 **测试过程**:
 1. pytest tests/test_api.py -v: 18 passed
 2. 全部测试：312 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 7 - Task 20, 21
+
+**任务**: 实现用户收藏管理 API / 搜索历史 API
+
+**完成内容**:
+- 创建收藏 API (app/api/v1/favorites.py) - POST/DELETE/GET /favorites
+- 创建搜索历史 API (app/api/v1/history.py) - GET/POST /search-history、POST /search-history/click
+- 创建搜索历史模型 (app/models/search_history.py) - user_id、session_id、query、CTR 字段
+- 创建 Alembic 迁移 (alembic/versions/002_search_history.py)
+- 支持匿名用户 - 基于 session_id 的搜索历史
+- CTR 数据采集 - 记录点击行为用于推荐优化
+- 创建测试文件 (tests/test_favorites_history.py) - 16 个测试用例
+
+**测试过程**:
+1. pytest tests/test_favorites_history.py -v: 16 passed
+2. 全部测试：328 passed, 0 failed
 
 **提交记录**: 待提交
 

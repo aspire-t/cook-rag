@@ -231,19 +231,25 @@
     "id": "20",
     "subject": "实现用户收藏管理 API",
     "description": "POST/DELETE/GET /api/v1/c/favorites - 收藏/取消收藏/收藏列表",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 7",
     "priority": "P1",
-    "dependencies": ["3", "19"]
+    "dependencies": ["3", "19"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "21",
     "subject": "实现搜索历史 API",
     "description": "记录搜索历史，支持匿名用户（session_id），CTR 数据采集",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 7",
     "priority": "P1",
-    "dependencies": ["18"]
+    "dependencies": ["18"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "22",

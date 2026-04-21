@@ -14,5 +14,6 @@ from .recipe import Recipe
 from .ingredient import RecipeIngredient
 from .step import RecipeStep
 from .favorite import Favorite
+from .search_history import SearchHistory
 
-__all__ = ["Base", "User", "Recipe", "RecipeIngredient", "RecipeStep", "Favorite"]
+__all__ = ["Base", "User", "Recipe", "RecipeIngredient", "RecipeStep", "Favorite", "SearchHistory"]

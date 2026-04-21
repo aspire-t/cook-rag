@@ -3,7 +3,7 @@ CookRAG - 企业级菜谱 RAG 系统
 FastAPI 应用入口
 """
 
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -21,6 +21,7 @@ from app.core.exceptions import (
     global_exception_handler,
 )
 from app.core.metrics import prometheus_middleware, metrics_handler
+from app.api.v1.websocket import websocket_endpoint
 
 
 @asynccontextmanager
@@ -106,6 +107,13 @@ async def readiness_check():
 async def metrics():
     """Prometheus 指标采集端点"""
     return metrics_handler(Request(scope={"type": "http"}))
+
+
+# WebSocket 跟做端点
+@app.websocket("/ws/recipes/{recipe_id}/cook")
+async def websocket_cook(recipe_id: str, websocket: WebSocket):
+    """WebSocket 跟做模式端点"""
+    await websocket_endpoint(websocket, recipe_id)
 
 
 # 注册 API 路由

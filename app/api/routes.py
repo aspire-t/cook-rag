@@ -4,7 +4,7 @@ API 路由注册
 
 from fastapi import APIRouter
 
-from app.api.v1 import search, recipes, users, upload, report, enterprise, standardize
+from app.api.v1 import search, recipes, users, upload, report, enterprise, standardize, inventory
 
 
 api_router = APIRouter()
@@ -17,3 +17,4 @@ api_router.include_router(upload.router, prefix="/upload", tags=["upload"])
 api_router.include_router(report.router, prefix="/report", tags=["report"])
 api_router.include_router(enterprise.router, prefix="/enterprise", tags=["enterprise"])
 api_router.include_router(standardize.router, prefix="/standardize", tags=["standardize"])
+api_router.include_router(inventory.router, prefix="/inventory", tags=["inventory"])

@@ -421,7 +421,7 @@
     "id": "32",
     "subject": "B 端标准化配方生成",
     "description": "LLM 生成 SOP、成本核算、营养成分表、过敏原信息",
-    "status": "pending",
+    "status": "completed",
     "sprint": "B 端 Phase 1",
     "priority": "P2",
     "dependencies": [

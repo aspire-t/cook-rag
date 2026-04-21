@@ -18,5 +18,6 @@ from .search_history import SearchHistory
 from .report import Report
 from .enterprise import Enterprise, EnterpriseUser
 from .standard_recipe import StandardRecipe
+from .inventory import Inventory, InventoryTransaction
 
-__all__ = ["Base", "User", "Recipe", "RecipeIngredient", "RecipeStep", "Favorite", "SearchHistory", "Report", "Enterprise", "EnterpriseUser", "StandardRecipe"]
+__all__ = ["Base", "User", "Recipe", "RecipeIngredient", "RecipeStep", "Favorite", "SearchHistory", "Report", "Enterprise", "EnterpriseUser", "StandardRecipe", "Inventory", "InventoryTransaction"]

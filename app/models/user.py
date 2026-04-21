@@ -56,6 +56,10 @@ class User(Base):
         back_populates="user",
         cascade="all, delete-orphan",
     )
+    inventory_transactions: Mapped[list["InventoryTransaction"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return f"<User(id={self.id}, phone={self.phone}, nickname={self.nickname})>"

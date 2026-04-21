@@ -72,6 +72,18 @@ class Enterprise(Base):
         cascade="all, delete-orphan",
     )
 
+    # 库存
+    inventory: Mapped[list["Inventory"]] = relationship(
+        back_populates="enterprise",
+        cascade="all, delete-orphan",
+    )
+
+    # 库存交易记录
+    inventory_transactions: Mapped[list["InventoryTransaction"]] = relationship(
+        back_populates="enterprise",
+        cascade="all, delete-orphan",
+    )
+
     def __repr__(self) -> str:
         return f"<Enterprise(id={self.id}, name={self.name})>"
 

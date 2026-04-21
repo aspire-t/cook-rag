@@ -38,7 +38,13 @@ class Settings(BaseSettings):
     # JWT
     SECRET_KEY: str = "your-secret-key-change-in-production"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 120  # 2 小时
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 天
+
+    # 微信小程序配置
+    WECHAT_APPID: str = ""
+    WECHAT_SECRET: str = ""
+    WECHAT_GRANT_TYPE: str = "authorization_code"
 
     # 文件上传
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB

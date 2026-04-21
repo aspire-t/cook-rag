@@ -11,7 +11,7 @@
 | Sprint | 任务数 | 完成数 | 进度 |
 |--------|--------|--------|------|
 | Sprint 0 | 1 | 1 | 100% |
-| Sprint 1 | 2 | 1 | 50% |
+| Sprint 1 | 3 | 2 | 67% |
 | Sprint 2 | 3 | 0 | 0% |
 | Sprint 3 | 3 | 0 | 0% |
 | Sprint 4 | 2 | 0 | 0% |
@@ -22,7 +22,7 @@
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **2** | **5.9%** |
+| **合计** | **34** | **3** | **8.8%** |
 
 ---
 
@@ -202,6 +202,29 @@
 3. 全部测试（test_database.py + test_infra.py）：81 passed, 0 failed
 
 **提交记录**: 6de0eae
+
+---
+
+### 2026-04-21 - Sprint 1 - Task 3
+
+**任务**: 实现 JWT 认证模块
+
+**完成内容**:
+- 创建 JWT 工具类 (app/core/jwt.py) - Token 颁发、验证、刷新
+- 创建 Token 黑名单服务 (app/services/blacklist.py) - Redis 存储
+- 创建认证依赖注入 (app/core/auth.py) - get_current_user
+- 创建微信登录服务 (app/services/wechat.py) - code 换 token
+- 创建限流中间件 (app/middleware/rate_limit.py) - 滑动窗口算法
+- 创建密码哈希工具 (app/core/security.py) - bcrypt
+- 更新用户路由 (app/api/v1/users.py) - 登录/登出/刷新 Token 端点
+- 更新配置文件 - 添加 JWT 和微信小程序配置
+
+**测试过程**:
+1. pytest tests/test_auth.py -v: 32 passed, 0 failed
+2. 模块功能验证：JWT 创建/验证、密码哈希/验证 通过
+3. 全部测试：113 passed, 0 failed
+
+**提交记录**: 待提交
 
 ---
 

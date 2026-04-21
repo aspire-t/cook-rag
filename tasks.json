@@ -27,10 +27,13 @@
     "id": "3",
     "subject": "实现 JWT 认证模块",
     "description": "实现 JWT Token 颁发、验证、刷新、黑名单功能，支持微信小程序登录",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 1",
     "priority": "P0",
-    "dependencies": ["2"]
+    "dependencies": ["2"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "4",

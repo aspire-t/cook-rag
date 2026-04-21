@@ -10,6 +10,9 @@ pydantic-settings==2.1.0
 # 向量数据库
 qdrant-client==1.7.0
 
+# 搜索引擎
+elasticsearch==8.11.0
+
 # AI/ML
 dashscope==1.14.0
 sentence-transformers==2.2.2

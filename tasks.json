@@ -3,10 +3,13 @@
     "id": "1",
     "subject": "搭建项目脚手架和 Docker Compose 环境",
     "description": "创建项目基础结构，配置 Docker Compose 开发环境（PostgreSQL、Redis、Qdrant、Elasticsearch）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 0",
     "priority": "P0",
-    "dependencies": []
+    "dependencies": [],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "2",

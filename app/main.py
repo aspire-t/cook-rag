@@ -19,6 +19,7 @@ from app.core.exceptions import (
     validation_exception_handler,
     http_exception_handler,
     global_exception_handler,
+    app_exception_handler,
 )
 from app.core.metrics import prometheus_middleware, metrics_handler
 from app.api.v1.websocket import websocket_endpoint
@@ -79,7 +80,10 @@ async def log_requests(request: Request, call_next):
 
 
 # Prometheus 监控中间件
-app.add_middleware(prometheus_middleware)
+@app.middleware("http")
+async def prometheus_metrics_middleware(request: Request, call_next):
+    from app.core.metrics import prometheus_middleware
+    return await prometheus_middleware(request, call_next)
 
 
 # 全局异常处理

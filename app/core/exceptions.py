@@ -10,7 +10,37 @@
 """
 
 from typing import Any, Optional
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Request
+from fastapi.responses import JSONResponse
+from pydantic import ValidationError
+from loguru import logger
+
+__all__ = [
+    # 错误码常量
+    "ERROR_AUTH_INVALID_TOKEN",
+    "ERROR_AUTH_TOKEN_EXPIRED",
+    "ERROR_AUTH_MISSING_TOKEN",
+    "ERROR_AUTH_INVALID_CREDENTIALS",
+    "ERROR_AUTH_USER_NOT_FOUND",
+    "ERROR_AUTH_PERMISSION_DENIED",
+    "ERROR_INTERNAL",
+    "ERROR_BAD_REQUEST",
+    "ERROR_NOT_FOUND",
+    "ERROR_SERVICE_UNAVAILABLE",
+    "ERROR_VALIDATION_ERROR",
+    # 异常类
+    "AppException",
+    "AuthenticationException",
+    "NotFoundException",
+    "RateLimitException",
+    "RecipeException",
+    "ReportException",
+    # 异常处理器
+    "app_exception_handler",
+    "validation_exception_handler",
+    "http_exception_handler",
+    "global_exception_handler",
+]
 
 
 # ============== 错误码常量 ==============

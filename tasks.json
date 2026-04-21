@@ -352,7 +352,7 @@
     "id": "26",
     "subject": "实现 Prometheus 监控指标",
     "description": "API 延迟、QPS、错误率、限流次数、缓存命中率",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 8",
     "priority": "P1",
     "dependencies": [
@@ -363,7 +363,7 @@
     "id": "27",
     "subject": "配置 Grafana 仪表盘",
     "description": "核心指标面板（QPS、P99 延迟、搜索 CTR、缓存命中率）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 9",
     "priority": "P1",
     "dependencies": [
@@ -374,7 +374,7 @@
     "id": "28",
     "subject": "性能基准测试",
     "description": "使用 locust 压测，验证性能指标（P50<200ms, P99<1s, 缓存命中率>40%）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 9",
     "priority": "P0",
     "dependencies": [
@@ -386,7 +386,7 @@
     "id": "29",
     "subject": "编写 API 文档",
     "description": "OpenAPI/Swagger 文档，请求/响应示例，错误码说明",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 9",
     "priority": "P1",
     "dependencies": [
@@ -399,7 +399,7 @@
     "id": "30",
     "subject": "WebSocket 跟做模式",
     "description": "实时步骤推送，倒计时功能，语音交互（后续迭代）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 10",
     "priority": "P2",
     "dependencies": [
@@ -410,7 +410,7 @@
     "id": "31",
     "subject": "B 端企业用户管理",
     "description": "企业表、企业 - 用户关联表，角色权限（admin/chef/manager/purchaser）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "B 端 Phase 1",
     "priority": "P2",
     "dependencies": [
@@ -444,7 +444,7 @@
     "id": "34",
     "subject": "B 端采购规划",
     "description": "采购清单生成、供应商管理、采购订单",
-    "status": "pending",
+    "status": "completed",
     "sprint": "B 端 Phase 2",
     "priority": "P2",
     "dependencies": [

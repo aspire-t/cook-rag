@@ -21,8 +21,8 @@
 | Sprint 8 | 3 | 3 | 100% |
 | Sprint 9 | 3 | 3 | 100% |
 | Sprint 10 | 1 | 1 | 100% |
-| B 端 Phase | 4 | 3 | 75% |
-| **合计** | **34** | **33** | **97.1%** |
+| B 端 Phase | 4 | 4 | 100% |
+| **合计** | **34** | **34** | **100%** |
 
 ---
 
@@ -562,6 +562,41 @@
 **测试过程**:
 1. pytest tests/test_enterprise.py -v: 24 passed
 2. 全部测试：474 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - B 端 Phase - Task 34
+
+**任务**: B 端采购规划
+
+**完成内容**:
+- 创建 Supplier 模型 (app/models/supplier.py)
+  - 供应商信息：名称、联系人、联系方式、地址
+  - 供应信息：品类列表、价格表 (JSONB)
+  - 状态和评级：is_active, rating
+- 创建 PurchaseOrder 模型 (app/models/purchase_order.py)
+  - 订单信息：订单号、状态、日期、预计/实际到货日期
+  - 订单物品：JSONB 存储
+  - 金额：total_amount
+- 创建 Alembic 迁移 (alembic/versions/007_purchase_orders.py)
+  - 创建 suppliers 和 purchase_orders 表
+  - 外键约束、索引优化
+- 创建采购服务 (app/services/purchase_service.py)
+  - 采购计划生成（基于库存、LLM 优化）
+  - 采购订单 CRUD
+  - 供应商管理
+- 创建采购 API (app/api/v1/purchase.py)
+  - GET/POST /purchase/suppliers - 供应商列表/创建
+  - POST /purchase/plan - 生成采购计划
+  - GET/POST /purchase/orders - 订单列表/创建
+  - PATCH /purchase/orders/{id}/status - 更新订单状态
+- 创建测试 tests/test_purchase.py（21 个测试）
+
+**测试过程**:
+1. pytest tests/test_purchase.py -v: 21 passed
+2. 全部测试：541 passed, 0 failed
 
 **提交记录**: 待提交
 

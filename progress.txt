@@ -21,8 +21,8 @@
 | Sprint 8 | 3 | 3 | 100% |
 | Sprint 9 | 3 | 3 | 100% |
 | Sprint 10 | 1 | 1 | 100% |
-| B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **31** | **91.2%** |
+| B 端 Phase | 4 | 2 | 50% |
+| **合计** | **34** | **33** | **97.1%** |
 
 ---
 
@@ -529,6 +529,76 @@
 **测试过程**:
 1. pytest tests/test_websocket.py -v: 34 passed
 2. 全部测试：450 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - B 端 Phase - Task 31
+
+**任务**: B 端企业用户管理
+
+**完成内容**:
+- 创建 app/models/enterprise.py
+  - Enterprise 模型：企业表（名称、统一社会信用代码、法人、联系方式、套餐等）
+  - EnterpriseUser 模型：企业 - 用户关联表（支持多企业）
+  - 角色权限：admin/chef/manager/purchaser/member
+  - 唯一约束：用户 - 企业关联唯一
+- 创建 alembic/versions/004_enterprises.py
+  - 创建 enterprises 和 enterprise_users 表
+  - 外键约束（CASCADE 删除）
+  - 索引优化
+- 创建 app/api/v1/enterprise.py
+  - POST /enterprises - 创建企业（自动设为管理员）
+  - GET /enterprises/{id} - 获取企业详情
+  - GET /enterprises - 获取用户的所有企业
+  - GET /enterprises/{id}/members - 获取成员列表
+  - POST /enterprises/{id}/invite - 邀请成员（仅管理员）
+  - PUT /enterprises/{id}/members/{uid}/role - 更新角色（仅管理员）
+  - DELETE /enterprises/{id}/members/{uid} - 移除成员
+- 更新 app/models/__init__.py、app/api/routes.py
+- 创建测试 tests/test_enterprise.py（24 个测试）
+
+**测试过程**:
+1. pytest tests/test_enterprise.py -v: 24 passed
+2. 全部测试：474 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - B 端 Phase - Task 32
+
+**任务**: B 端标准化配方生成
+
+**完成内容**:
+- 创建 StandardRecipe 模型 (app/models/standard_recipe.py)
+  - 核心字段：recipe_id, enterprise_id, version, is_latest
+  - SOP 内容：sop_document_url, sop_content (JSON)
+  - 成本核算：cost_calculation, total_cost, suggested_price, gross_margin
+  - 营养信息：nutrition_info (JSON)
+  - 过敏原：allergen_info (JSON)
+  - 保质期：shelf_life_days, storage_temperature
+- 创建 Alembic 迁移 (alembic/versions/005_standard_recipes.py)
+  - 创建 standard_recipes 表
+  - 外键约束（CASCADE 删除）
+  - 索引优化
+- 创建标准化服务 (app/services/standardize_service.py)
+  - LLM 生成 SOP (B_STANDARDIZE_PROMPT)
+  - 成本核算、营养分析、过敏原检测
+  - 版本控制（自动 deprecated 旧版本）
+- 创建标准化 API (app/api/v1/standardize.py)
+  - POST /standardize/generate - 生成标准化配方
+  - GET /standardize/recipes/{recipe_id}/standard - 获取标准化配方
+  - 角色权限检查（仅 admin/chef 可生成）
+- 更新路由注册 (app/api/routes.py)
+- 更新模型导出 (app/models/__init__.py)
+- 更新关联关系 (app/models/recipe.py, app/models/enterprise.py)
+- 创建测试 tests/test_standardize.py（20 个测试）
+
+**测试过程**:
+1. pytest tests/test_standardize.py -v: 20 passed
+2. 全部测试：494 passed, 0 failed
 
 **提交记录**: 待提交
 

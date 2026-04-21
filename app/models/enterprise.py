@@ -66,6 +66,12 @@ class Enterprise(Base):
     # 企业菜谱（后续迭代）
     # enterprise_recipes: Mapped[list["Recipe"]] = relationship(back_populates="enterprise")
 
+    # 标准化配方
+    standard_recipes: Mapped[list["StandardRecipe"]] = relationship(
+        back_populates="enterprise",
+        cascade="all, delete-orphan",
+    )
+
     def __repr__(self) -> str:
         return f"<Enterprise(id={self.id}, name={self.name})>"
 

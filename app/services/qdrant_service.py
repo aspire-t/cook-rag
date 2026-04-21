@@ -14,11 +14,11 @@ from qdrant_client.http.models import (
 )
 
 from app.core.config import settings
-from app.services.qdrant_schema import get_collection_config
+from app.services.qdrant_schema import get_collection_config, VECTOR_SIZE
 
 
 class QdrantService:
-    """Qdrant 向量检索服务."""
+    """Qdrant 向量检索服务 - 使用 COSINE 相似度计算."""
 
     def __init__(self, qdrant_url: Optional[str] = None):
         """

@@ -75,46 +75,61 @@
     "id": "7",
     "subject": "实现 ES BM25 检索服务",
     "description": "实现 Elasticsearch 关键词检索，IK 分词查询，支持过滤条件",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 3",
     "priority": "P0",
-    "dependencies": ["4"]
+    "dependencies": ["4"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "8",
     "subject": "实现 Qdrant 向量检索服务",
     "description": "实现四路向量召回，支持 Payload 过滤，权重配置",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 3",
     "priority": "P0",
-    "dependencies": ["5"]
+    "dependencies": ["5"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "9",
     "subject": "实现 RRF 结果融合算法",
     "description": "实现 Reciprocal Rank Fusion 算法（k=60），合并两路召回结果，去重",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 3",
     "priority": "P0",
-    "dependencies": ["7", "8"]
+    "dependencies": ["7", "8"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "10",
     "subject": "部署 Rerank 模型（PyTorch + MPS）",
     "description": "本地部署 BGE-Reranker-v2-m3，PyTorch + MPS 加速，批处理推理",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 4",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": ["1"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "11",
     "subject": "实现重排序服务",
     "description": "集成 Rerank 模型，实现个性化加权（用户偏好、菜谱热度）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 4",
     "priority": "P0",
-    "dependencies": ["9", "10"]
+    "dependencies": ["9", "10"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "12",

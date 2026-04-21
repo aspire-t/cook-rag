@@ -52,6 +52,10 @@ class User(Base):
     # 关联
     recipes: Mapped[list["Recipe"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     favorites: Mapped[list["Favorite"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    enterprise_users: Mapped[list["EnterpriseUser"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self) -> str:
         return f"<User(id={self.id}, phone={self.phone}, nickname={self.nickname})>"

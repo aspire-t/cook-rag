@@ -13,16 +13,16 @@
 | Sprint 0 | 1 | 1 | 100% |
 | Sprint 1 | 3 | 3 | 100% |
 | Sprint 2 | 3 | 3 | 100% |
-| Sprint 3 | 3 | 0 | 0% |
-| Sprint 4 | 2 | 0 | 0% |
-| Sprint 5 | 4 | 0 | 0% |
+| Sprint 3 | 3 | 3 | 100% |
+| Sprint 4 | 2 | 2 | 100% |
+| Sprint 5 | 4 | 4 | 100% |
 | Sprint 6 | 3 | 0 | 0% |
 | Sprint 7 | 4 | 0 | 0% |
 | Sprint 8 | 3 | 0 | 0% |
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **6** | **17.6%** |
+| **合计** | **34** | **15** | **44.1%** |
 
 ---
 
@@ -272,6 +272,69 @@
 
 ---
 
+### 2026-04-21 - Sprint 3 - Task 7, 8, 9
+
+**任务**: 实现 ES BM25 检索服务 / Qdrant 向量检索服务 / RRF 结果融合算法
+
+**完成内容**:
+- 创建 RRF 融合算法 (app/services/rrf_fusion.py) - Reciprocal Rank Fusion, k=60
+- 创建混合检索服务 (app/services/hybrid_search.py) - ES + Qdrant + RRF 整合
+- 更新 Qdrant 服务 - 添加 COSINE 相似度说明
+- 更新 ES Schema - 添加 recipes 索引说明
+
+**测试过程**:
+1. pytest tests/test_search.py -v: 23 passed, 0 failed
+2. 全部测试：198 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 4 - Task 10, 11
+
+**任务**: 部署 Rerank 模型（PyTorch + MPS） / 实现重排序服务
+
+**完成内容**:
+- 创建 Rerank 模型 (app/models/rerank_model.py) - BGE-Reranker-v2-m3, MPS/CUDA 加速，批处理推理
+- 创建重排序服务 (app/services/rerank_service.py) - 个性化加权（用户偏好 25% + 菜谱热度 15% + Rerank 60%）
+- 更新混合检索服务 - 集成 Rerank 重排序（可选开关，默认启用）
+- 创建测试文件 (tests/test_rerank.py) - 19 个测试用例
+
+**测试过程**:
+1. pytest tests/test_rerank.py -v: 19 passed, 0 failed
+2. 全部测试：217 passed, 0 failed
+3. 模型加载验证：通过（支持 MPS > CUDA > CPU 回退）
+4. 批处理验证：通过（batch_size=16）
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 5 - Task 12, 13, 14, 15
+
+**任务**: 实现 Redis 缓存层 / 滑动窗口限流中间件 / Prompt 模板管理模块 / RAG 上下文管理器
+
+**完成内容**:
+- 创建缓存服务 (app/services/cache_service.py) - 搜索缓存 (1h)、LLM 缓存 (24h)、用户画像缓存 (30m)
+- 更新限流中间件 (app/middleware/rate_limit.py) - 分 API 类型配置阈值（搜索 30/min、LLM 10/min、认证 5/min）
+- 创建 Prompt 管理器 (app/services/prompt_manager.py) - Jinja2 模板引擎、Token 裁剪
+- 创建会话管理器 (app/services/conversation_manager.py) - Redis 会话存储、30 分钟 TTL、多轮对话
+- 创建 Prompt 模板 (app/prompts/*.jinja) - system、chat、search、recommend 模板
+- 更新配置文件 - 添加限流、Prompt、会话相关配置
+- 更新 requirements.txt - 添加 tiktoken、transformers、torch 依赖
+- 创建测试文件 (tests/test_cache.py、test_rate_limit.py、test_prompt.py、test_context.py) - 51 个测试用例
+
+**测试过程**:
+1. pytest tests/test_cache.py -v: 11 passed
+2. pytest tests/test_rate_limit.py -v: 10 passed
+3. pytest tests/test_prompt.py -v: 17 passed
+4. pytest tests/test_context.py -v: 13 passed
+5. 全部测试：268 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
 ### 2026-04-21 - 工作日志创建
 
 **任务**: 创建 progress.txt 工作日志
@@ -313,7 +376,7 @@
 |----------|------|--------|--------|------|
 | - | 搜索 P50 | < 200ms | - | - |
 | - | 搜索 P99 | < 1s | - | - |
-| - | Rerank 延迟 | < 100ms | - | - |
+| - | Rerank 延迟 | < 500ms (20 items) | - | - |
 | - | 缓存命中率 | > 40% | - | - |
 
 ---

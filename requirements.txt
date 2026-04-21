@@ -17,6 +17,9 @@ elasticsearch==8.11.0
 dashscope==1.14.0
 sentence-transformers==2.2.2
 FlagEmbedding==1.2.8
+tiktoken==0.5.1
+transformers==4.36.0
+torch==2.1.0
 
 # 任务队列
 celery==5.3.6

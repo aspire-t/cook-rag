@@ -1,0 +1,19 @@
+{# 聊天对话模板 #}
+
+{% if history %}
+【对话历史】
+{% for msg in history %}
+{{ msg.role == 'user' and '用户' or '助手' }}: {{ msg.content }}
+{% endfor %}
+---
+{% endif %}
+
+【当前问题】
+{{ question }}
+
+{% if context %}
+【参考信息】
+{{ context }}
+{% endif %}
+
+请根据以上信息，为用户提供专业、实用的回答。

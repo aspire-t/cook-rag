@@ -53,6 +53,21 @@ class Settings(BaseSettings):
     # 文件上传
     MAX_FILE_SIZE: int = 10 * 1024 * 1024  # 10MB
 
+    # 限流配置
+    RATE_LIMIT_DEFAULT: int = 100  # 默认 100 次/分钟
+    RATE_LIMIT_SEARCH: int = 30  # 搜索 API：30 次/分钟
+    RATE_LIMIT_LLM: int = 10  # LLM API：10 次/分钟
+    RATE_LIMIT_AUTH: int = 5  # 认证 API：5 次/分钟
+    RATE_LIMIT_UPLOAD: int = 20  # 上传 API：20 次/分钟
+
+    # Prompt 配置
+    PROMPT_DIR: str = "app/prompts"
+    MAX_CONTEXT_TOKENS: int = 4096  # 最大上下文 Token 数
+
+    # 会话配置
+    SESSION_TTL: int = 1800  # 30 分钟
+    MAX_CONVERSATION_HISTORY: int = 20  # 最大历史消息数
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

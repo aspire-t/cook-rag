@@ -1,0 +1,20 @@
+{# 个性化推荐模板 #}
+
+{% if user_prefs %}
+用户偏好：
+{% for key, value in user_prefs.items() %}
+- {{ key }}: {{ value }}
+{% endfor %}
+{% endif %}
+
+{% if context %}
+可用菜谱：
+{{ context }}
+{% endif %}
+
+请根据用户偏好和可用菜谱，推荐 3-5 道最适合的菜谱。
+对于每道推荐菜谱，请说明：
+1. 推荐理由（与用户偏好的匹配点）
+2. 主要特色
+3. 预计烹饪时间
+4. 难度等级

@@ -135,37 +135,49 @@
     "id": "12",
     "subject": "实现 Redis 缓存层",
     "description": "搜索缓存（1h TTL）、LLM 响应缓存（24h TTL）、用户画像缓存",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P1",
-    "dependencies": ["1"]
+    "dependencies": ["1"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "13",
     "subject": "实现滑动窗口限流中间件",
     "description": "基于 Redis ZSet 的滑动窗口限流，分 API 类型配置阈值",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": ["1"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "14",
     "subject": "实现 Prompt 模板管理模块",
     "description": "Jinja2 模板引擎，Prompt 文件加载，变量注入，Token 裁剪",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": ["1"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "15",
     "subject": "实现 RAG 上下文管理器",
     "description": "Redis 会话管理（30 分钟 TTL），对话历史维护，多轮对话上下文",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 5",
     "priority": "P0",
-    "dependencies": ["14"]
+    "dependencies": ["14"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "16",

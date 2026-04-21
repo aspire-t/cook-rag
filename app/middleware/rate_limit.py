@@ -1,7 +1,11 @@
-"""限流中间件 - 基于 Redis ZSet 的滑动窗口算法."""
+"""限流中间件 - 基于 Redis ZSet 的滑动窗口算法。
+
+支持按 API 类型配置不同的限流阈值。
+"""
 
 import time
-from typing import Optional
+from typing import Optional, Dict
+from dataclasses import dataclass
 from fastapi import Request, HTTPException, status
 from fastapi.responses import JSONResponse
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -9,8 +13,26 @@ from starlette.middleware.base import BaseHTTPMiddleware
 import redis.asyncio as redis
 
 
+@dataclass
+class RateLimitConfig:
+    """限流配置."""
+    limit: int  # 窗口内最大请求数
+    window_seconds: int  # 窗口大小（秒）
+
+
 class SlidingWindowRateLimiter:
     """滑动窗口限流器（Redis ZSet 实现）."""
+
+    # 默认配置：100 次/分钟
+    DEFAULT_CONFIG = RateLimitConfig(limit=100, window_seconds=60)
+
+    # API 类型配置
+    API_CONFIGS: Dict[str, RateLimitConfig] = {
+        "search": RateLimitConfig(limit=30, window_seconds=60),  # 搜索 API：30 次/分钟
+        "llm": RateLimitConfig(limit=10, window_seconds=60),  # LLM API：10 次/分钟
+        "auth": RateLimitConfig(limit=5, window_seconds=60),  # 认证 API：5 次/分钟
+        "upload": RateLimitConfig(limit=20, window_seconds=60),  # 上传 API：20 次/分钟
+    }
 
     def __init__(
         self,
@@ -33,19 +55,49 @@ class SlidingWindowRateLimiter:
         self.window = window_seconds
         self.prefix = key_prefix
 
-    async def is_allowed(self, identifier: str) -> bool:
+    def get_config_for_path(self, path: str) -> RateLimitConfig:
+        """
+        根据路径获取限流配置.
+
+        Args:
+            path: API 路径
+
+        Returns:
+            对应的限流配置
+        """
+        # 根据路径匹配 API 类型
+        if "/search" in path or "/recommend" in path:
+            return self.API_CONFIGS.get("search", self.DEFAULT_CONFIG)
+        elif "/llm" in path or "/chat" in path or "/generate" in path:
+            return self.API_CONFIGS.get("llm", self.DEFAULT_CONFIG)
+        elif "/login" in path or "/auth" in path or "/refresh" in path:
+            return self.API_CONFIGS.get("auth", self.DEFAULT_CONFIG)
+        elif "/upload" in path or "/recipes" in path:
+            return self.API_CONFIGS.get("upload", self.DEFAULT_CONFIG)
+        else:
+            return self.DEFAULT_CONFIG
+
+    async def is_allowed(
+        self,
+        identifier: str,
+        path: Optional[str] = None,
+    ) -> tuple[bool, RateLimitConfig]:
         """
         检查请求是否允许.
 
         Args:
             identifier: 请求标识（用户 ID 或 IP）
+            path: API 路径（用于选择配置）
 
         Returns:
-            True 允许请求，False 限流
+            (是否允许，使用的配置)
         """
-        key = f"{self.prefix}:{identifier}"
+        # 根据路径选择配置
+        config = self.get_config_for_path(path) if path else self.DEFAULT_CONFIG
+
+        key = f"{self.prefix}:{identifier}:{config.limit}:{config.window_seconds}"
         now = time.time()
-        window_start = now - self.window
+        window_start = now - config.window_seconds
 
         # 使用 Pipeline 保证原子性
         pipe = self.redis.pipeline()
@@ -60,13 +112,13 @@ class SlidingWindowRateLimiter:
         pipe.zcard(key)
 
         # 设置过期时间
-        pipe.expire(key, self.window)
+        pipe.expire(key, config.window_seconds)
 
         # 执行
         results = await pipe.execute()
         current_count = results[2]
 
-        return current_count <= self.limit
+        return (current_count <= config.limit, config)
 
 
 class RateLimitMiddleware(BaseHTTPMiddleware):
@@ -117,9 +169,9 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
             window_seconds=self.window,
         )
 
-        # 检查限流
+        # 检查限流（传入路径以选择配置）
         try:
-            allowed = await limiter.is_allowed(identifier)
+            allowed, config = await limiter.is_allowed(identifier, request.url.path)
         except Exception:
             # Redis 不可用时放行（开发环境）
             return await call_next(request)
@@ -129,8 +181,12 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
         if not allowed:
             return JSONResponse(
                 status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                content={"detail": "请求过于频繁，请稍后再试"},
-                headers={"Retry-After": str(self.window)},
+                content={
+                    "detail": "请求过于频繁，请稍后再试",
+                    "retry_after": config.window_seconds,
+                    "limit": config.limit,
+                },
+                headers={"Retry-After": str(config.window_seconds)},
             )
 
         return await call_next(request)

@@ -18,11 +18,11 @@
 | Sprint 5 | 4 | 4 | 100% |
 | Sprint 6 | 3 | 3 | 100% |
 | Sprint 7 | 4 | 4 | 100% |
-| Sprint 8 | 3 | 2 | 66.7% |
-| Sprint 9 | 3 | 0 | 0% |
+| Sprint 8 | 3 | 3 | 100% |
+| Sprint 9 | 3 | 3 | 100% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **27** | **79.4%** |
+| **合计** | **34** | **30** | **88.2%** |
 
 ---
 
@@ -450,6 +450,55 @@
 1. pytest tests/test_exceptions.py -v: 15 passed
 2. pytest tests/test_metrics.py -v: 18 passed
 3. 全部测试：377 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 8 - Task 27
+
+**任务**: 配置 Grafana 仪表盘
+
+**完成内容**:
+- 创建 monitoring/grafana-dashboard.json - Grafana 仪表盘配置文件
+- 创建 monitoring/grafana-dashboard.md - 仪表盘文档说明
+- 定义 12 个监控面板：
+  - 核心性能：QPS、P99 延迟、P50 延迟
+  - 缓存性能：缓存命中率、命中/未命中计数
+  - RAG 搜索：搜索延迟分布、结果数量
+  - LLM 性能：请求延迟、Token 消耗
+  - 业务指标：菜谱上传趋势、举报统计
+  - 系统健康：HTTP 错误率、并发请求数
+- 配置告警规则（P99 延迟、缓存命中率、LLM 错误率）
+
+**测试过程**:
+1. pytest tests/test_api_docs.py -v: 20 passed
+2. 全部测试：416 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 9 - Task 28, 29
+
+**任务**: 性能基准测试 / API 文档
+
+**完成内容**:
+- 创建 tests/locustfile.py - Locust 压测脚本
+  - SearchUser：模拟 C 端用户搜索行为（搜索、查看详情、推荐、健康检查）
+  - AdminUser：模拟管理用户行为（待审核、举报列表、审核通过）
+  - PerformanceMetrics：性能指标收集器（P50、P99、缓存命中率计算）
+  - 性能目标：P50<200ms, P99<1s, 缓存命中率>40%
+- 更新 app/api/schemas.py - 完整的 API Schema 定义
+  - 添加错误码说明字典（ERROR_CODE_DESCRIPTIONS）
+  - 为所有 Schema 添加 Field 描述和示例值
+  - 新增 Schema：FavoriteRequest/Response, SearchHistory, UploadRecipe, ReportRecipe
+- 创建测试 tests/test_benchmark.py（19 个测试）、tests/test_api_docs.py（20 个测试）
+
+**测试过程**:
+1. pytest tests/test_benchmark.py -v: 19 passed
+2. pytest tests/test_api_docs.py -v: 20 passed
+3. 全部测试：416 passed, 0 failed
 
 **提交记录**: 待提交
 

@@ -39,19 +39,25 @@
     "id": "4",
     "subject": "配置 Elasticsearch 和 IK Analyzer",
     "description": "部署 ES 8.x，安装 IK Analyzer 分词器，创建菜谱索引，配置 BM25 参数",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 2",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": ["1"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "5",
     "subject": "配置 Qdrant 向量索引",
     "description": "创建 Qdrant Collection，配置四路向量（name_vec、desc_vec、step_vec、tag_vec），导入 embedding 数据",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 2",
     "priority": "P0",
-    "dependencies": ["1"]
+    "dependencies": ["1"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "6",

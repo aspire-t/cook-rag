@@ -11,8 +11,8 @@
 | Sprint | 任务数 | 完成数 | 进度 |
 |--------|--------|--------|------|
 | Sprint 0 | 1 | 1 | 100% |
-| Sprint 1 | 3 | 2 | 67% |
-| Sprint 2 | 3 | 0 | 0% |
+| Sprint 1 | 3 | 3 | 100% |
+| Sprint 2 | 3 | 2 | 67% |
 | Sprint 3 | 3 | 0 | 0% |
 | Sprint 4 | 2 | 0 | 0% |
 | Sprint 5 | 4 | 0 | 0% |
@@ -22,7 +22,7 @@
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **3** | **8.8%** |
+| **合计** | **34** | **5** | **14.7%** |
 
 ---
 
@@ -225,6 +225,29 @@
 3. 全部测试：113 passed, 0 failed
 
 **提交记录**: b78d8a2
+
+---
+
+### 2026-04-21 - Sprint 2 - Task 4 & Task 5
+
+**任务**: 配置 Elasticsearch 和 IK Analyzer / 配置 Qdrant 向量索引
+
+**完成内容**:
+- 创建 ES 搜索服务 (app/services/es_search.py) - BM25 检索、IK 分词
+- 创建 ES Schema (app/services/es_schema.py) - recipes 索引映射、BM25 参数配置
+- 创建 ES 健康检查 (app/services/es_health.py) - 集群状态检查
+- 创建 Qdrant 服务 (app/services/qdrant_service.py) - 四路向量检索、Payload 过滤
+- 创建 Qdrant Schema (app/services/qdrant_schema.py) - Collection 配置、向量维度定义
+- 创建 Qdrant 健康检查 (app/services/qdrant_health.py) - 集群健康检查
+- 更新配置文件 - 添加 ELASTICSEARCH_URL 和 ES_INDEX_NAME
+
+**测试过程**:
+1. pytest tests/test_es.py -v: 18 passed, 0 failed
+2. pytest tests/test_qdrant.py -v: 18 passed, 0 failed
+3. 模块功能验证：ES Schema、Qdrant Schema 验证通过
+4. 全部测试：149 passed, 0 failed
+
+**提交记录**: 待提交
 
 ---
 

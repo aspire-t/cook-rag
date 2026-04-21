@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     QDRANT_URL: str = "http://localhost:6333"
     QDRANT_COLLECTION: str = "recipes"
 
+    # Elasticsearch
+    ELASTICSEARCH_URL: str = "http://localhost:9200"
+    ES_INDEX_NAME: str = "recipes"
+
     # 通义千问 API
     DASHSCOPE_API_KEY: str = ""
     LLM_MODEL: str = "qwen-plus"

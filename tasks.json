@@ -183,19 +183,25 @@
     "id": "16",
     "subject": "集成通义千问 LLM API",
     "description": "调用阿里云百炼 Qwen-Plus API，流式输出（C 端），超时重试（30s，3 次）",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["14", "15"]
+    "dependencies": ["14", "15"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "17",
     "subject": "实现三级降级策略",
     "description": "LLM API 故障 → Web Search（Bing） → 规则引擎兜底",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 6",
     "priority": "P0",
-    "dependencies": ["16"]
+    "dependencies": ["16"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "18",

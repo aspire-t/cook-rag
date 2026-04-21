@@ -16,13 +16,13 @@
 | Sprint 3 | 3 | 3 | 100% |
 | Sprint 4 | 2 | 2 | 100% |
 | Sprint 5 | 4 | 4 | 100% |
-| Sprint 6 | 3 | 0 | 0% |
+| Sprint 6 | 3 | 2 | 67% |
 | Sprint 7 | 4 | 0 | 0% |
 | Sprint 8 | 3 | 0 | 0% |
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **15** | **44.1%** |
+| **合计** | **34** | **17** | **50%** |
 
 ---
 
@@ -330,6 +330,26 @@
 3. pytest tests/test_prompt.py -v: 17 passed
 4. pytest tests/test_context.py -v: 13 passed
 5. 全部测试：268 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 6 - Task 16, 17
+
+**任务**: 集成通义千问 LLM API / 实现三级降级策略
+
+**完成内容**:
+- 创建 LLM 服务 (app/services/llm_service.py) - Qwen-Plus API、流式输出、超时重试 (30s/3 次)
+- 创建降级服务 (app/services/fallback_service.py) - 三级降级（LLM → Web Search → 规则引擎）
+- Web Search 集成 - Bing Search API 集成
+- 规则引擎 - 基于关键词匹配的兜底回答
+- 创建测试文件 (tests/test_llm.py、test_fallback.py) - 26 个测试用例
+
+**测试过程**:
+1. pytest tests/test_llm.py -v: 13 passed
+2. pytest tests/test_fallback.py -v: 13 passed
+3. 全部测试：294 passed, 0 failed
 
 **提交记录**: 待提交
 

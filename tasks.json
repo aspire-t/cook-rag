@@ -63,10 +63,13 @@
     "id": "6",
     "subject": "实现 HowToCook 数据导入流水线",
     "description": "Markdown 解析、数据清洗、质量校验、向量化、增量导入脚本",
-    "status": "pending",
+    "status": "completed",
     "sprint": "Sprint 2",
     "priority": "P0",
-    "dependencies": ["4", "5"]
+    "dependencies": ["4", "5"],
+    "started_at": "2026-04-21",
+    "completed_at": "2026-04-21",
+    "commit_hash": "待提交"
   },
   {
     "id": "7",

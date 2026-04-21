@@ -18,11 +18,11 @@
 | Sprint 5 | 4 | 4 | 100% |
 | Sprint 6 | 3 | 3 | 100% |
 | Sprint 7 | 4 | 4 | 100% |
-| Sprint 8 | 3 | 0 | 0% |
+| Sprint 8 | 3 | 2 | 66.7% |
 | Sprint 9 | 3 | 0 | 0% |
 | Sprint 10 | 1 | 0 | 0% |
 | B 端 Phase | 4 | 0 | 0% |
-| **合计** | **34** | **25** | **73.5%** |
+| **合计** | **34** | **27** | **79.4%** |
 
 ---
 
@@ -420,6 +420,36 @@
 **测试过程**:
 1. pytest tests/test_upload_report.py -v: 16 passed
 2. 全部测试：344 passed, 0 failed
+
+**提交记录**: 待提交
+
+---
+
+### 2026-04-21 - Sprint 8 - Task 25, 26
+
+**任务**: 实现全局异常处理 / Prometheus 监控指标
+
+**完成内容**:
+- 创建异常处理模块 (app/core/exceptions.py)
+  - 统一错误码体系（1xxx 认证、2xxx 通用、3xxx 搜索、4xxx 菜谱、5xxx 举报）
+  - AppException 基类及子类（AuthenticationException、NotFoundException、RateLimitException 等）
+  - 业务异常类（RecipeException、ReportException）
+  - FastAPI 异常处理器（AppException、RequestValidationError、HTTPException、Exception）
+- 创建 Prometheus 监控模块 (app/core/metrics.py)
+  - HTTP 指标：请求总数、延迟、并发数、错误数
+  - 缓存指标：命中/未命中数、命中率
+  - RAG 指标：搜索延迟、结果数量
+  - LLM 指标：请求数、Token 消耗、延迟
+  - 业务指标：菜谱上传、举报、搜索查询
+  - Prometheus 中间件自动采集指标
+  - /metrics 端点暴露指标数据
+- 更新 app/main.py 注册异常处理器和监控中间件
+- 创建测试文件 (tests/test_exceptions.py - 15 个测试、tests/test_metrics.py - 18 个测试)
+
+**测试过程**:
+1. pytest tests/test_exceptions.py -v: 15 passed
+2. pytest tests/test_metrics.py -v: 18 passed
+3. 全部测试：377 passed, 0 failed
 
 **提交记录**: 待提交
 

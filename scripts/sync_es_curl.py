@@ -84,10 +84,22 @@ async def main():
             for r in step_result
         ]) if step_result else ""
 
+        # 清理 description 中的 Markdown 语法
+        description = recipe["description"] or ""
+        import re
+        # 移除 Markdown 图片 ![text](url)
+        description = re.sub(r'!\[[^\]]*\]\([^\)]*\)', '', description)
+        # 移除 Markdown 链接 [text](url)
+        description = re.sub(r'\[([^\]]*)\]\([^\)]*\)', r'\1', description)
+        # 移除 Markdown 标题 #
+        description = re.sub(r'^#+\s*', '', description, flags=re.MULTILINE)
+        # 移除多余空白
+        description = ' '.join(description.split())[:500]
+
         doc = {
             "id": recipe_id,
             "name": name,
-            "description": recipe["description"] or "",
+            "description": description,
             "ingredients": ingredients[:1000],
             "steps": steps[:2000],
             "cuisine": recipe["cuisine"] or "",

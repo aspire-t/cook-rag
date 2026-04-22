@@ -39,7 +39,7 @@ class RecipeDetailResponse(BaseModel):
     ingredients: List[IngredientItem] = []
     steps: List[StepItem] = []
     favorites_count: int = 0
-    views_count: int = 0
+    view_count: int = 0
     rating: Optional[float] = None
 
 
@@ -94,11 +94,11 @@ async def get_recipe_detail(
             for step in steps_result.scalars().all()
         ]
 
-        recipe.views_count = (recipe.views_count or 0) + 1
+        recipe.view_count = (recipe.view_count or 0) + 1
         await db.commit()
 
         return RecipeDetailResponse(
-            id=recipe.id,
+            id=str(recipe.id),
             name=recipe.name,
             description=recipe.description,
             cuisine=recipe.cuisine,
@@ -108,9 +108,9 @@ async def get_recipe_detail(
             cook_time=recipe.cook_time,
             ingredients=ingredients,
             steps=steps,
-            favorites_count=recipe.favorites_count or 0,
-            views_count=recipe.views_count or 0,
-            rating=recipe.rating,
+            favorites_count=recipe.favorite_count or 0,
+            view_count=recipe.view_count or 0,
+            rating=None,
         )
 
     except HTTPException:

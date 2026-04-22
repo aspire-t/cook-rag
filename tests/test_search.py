@@ -158,5 +158,68 @@ class TestHybridSearch:
         assert "rrf" in hybrid_file.lower() or "fusion" in hybrid_file.lower(), "应该集成 RRF 融合"
 
 
+# ============================================================
+# 真正的 API 集成测试 - 验证实际 API 功能而非代码结构
+# ============================================================
+
+class TestSearchAPIIntegration:
+    """搜索 API 集成测试 - 验证实际搜索结果"""
+
+    @pytest.mark.asyncio
+    async def test_es_service_returns_results(self):
+        """测试 ES 服务实际返回搜索结果（不通过 API）"""
+        from app.services.es_search import ESSearchService
+
+        es_service = ESSearchService()
+        try:
+            results = await es_service.search("红烧", size=10)
+            # 如果 ES 有数据，应该返回红烧肉
+            assert len(results) > 0, "ES 搜索应该返回结果"
+            assert any("红烧肉" in r.get("name", "") for r in results), "应该返回红烧肉"
+        finally:
+            await es_service.close()
+
+    @pytest.mark.asyncio
+    async def test_hybrid_search_es_format(self):
+        """测试混合检索 ES 结果格式."""
+        from app.services.hybrid_search import HybridSearch
+
+        hs = HybridSearch()
+        try:
+            # 只用 ES 搜索
+            results = await hs._search_es("红烧")
+            assert len(results) > 0, "ES 搜索应该返回结果"
+            # 验证格式：每个结果应该有 recipe_id, score, payload
+            for r in results:
+                assert "recipe_id" in r, "结果应该包含 recipe_id"
+                assert "score" in r, "结果应该包含 score"
+                assert "payload" in r, "结果应该包含 payload"
+                # payload 应该包含菜谱信息
+                payload = r.get("payload", {})
+                assert "name" in payload, "payload 应该包含 name"
+        finally:
+            await hs.es_service.close()
+            # qdrant_service.close() 可能返回 None，不需要 await
+            close_result = hs.qdrant_service.close()
+            if close_result:
+                await close_result
+
+    @pytest.mark.asyncio
+    async def test_search_accuracy(self):
+        """测试搜索准确性：搜索"红烧"不应该返回"清蒸鲈鱼"."""
+        from app.services.es_search import ESSearchService
+
+        es_service = ESSearchService()
+        try:
+            results = await es_service.search("红烧", size=10)
+            # 验证结果中不包含不相关的菜谱
+            recipe_names = [r.get("name", "") for r in results]
+            assert "清蒸鲈鱼" not in recipe_names, f"搜索'红烧'不应该返回清蒸鲈鱼，但得到：{recipe_names}"
+            # 验证结果中包含红烧肉
+            assert any("红烧肉" in name for name in recipe_names), f"搜索'红烧'应该返回红烧肉，但得到：{recipe_names}"
+        finally:
+            await es_service.close()
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

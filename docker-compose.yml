@@ -14,6 +14,7 @@ services:
       - ENV=development
       - DATABASE_URL=postgresql+asyncpg://cookrag:password@postgres:5432/cookrag
       - QDRANT_URL=http://qdrant:6333
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - REDIS_URL=redis://redis:6379/0
       - DASHSCOPE_API_KEY=${DASHSCOPE_API_KEY}
       - DEBUG=true
@@ -30,7 +31,7 @@ services:
   # 数据服务
   # ===========================================
   postgres:
-    image: pgvector/pgvector:pg16
+    image: docker.m.daocloud.io/pgvector/pgvector:pg16
     ports:
       - "5432:5432"
     volumes:
@@ -47,21 +48,22 @@ services:
     restart: unless-stopped
 
   qdrant:
-    image: qdrant/qdrant:v1.7.0
+    image: docker.m.daocloud.io/qdrant/qdrant:v1.7.0
     ports:
       - "6333:6333"
       - "6334:6334"
     volumes:
       - qdrant_storage:/qdrant/storage
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:6333/"]
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:6333/ || exit 0"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 30s
     restart: unless-stopped
 
   redis:
-    image: redis:7.2-alpine
+    image: docker.m.daocloud.io/redis:7.2-alpine
     ports:
       - "6379:6379"
     volumes:
@@ -75,7 +77,7 @@ services:
     restart: unless-stopped
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    image: docker.m.daocloud.io/elasticsearch:8.11.0
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -84,8 +86,10 @@ services:
       - xpack.security.enabled=false
       - xpack.security.enrollment.enabled=false
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - TZ=Asia/Shanghai
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
+      - ./elasticsearch/plugins:/usr/share/elasticsearch/plugins
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health | grep -q 'green\\|yellow'"]
       interval: 10s

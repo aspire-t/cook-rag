@@ -7,7 +7,10 @@ from app.core.config import settings
 
 
 class ESSearchService:
-    """Elasticsearch 搜索服务."""
+    """Elasticsearch 搜索服务.
+
+    使用 IK 分词器 (ik_max_word) 进行中文分词，支持 BM25 相关性评分。
+    """
 
     def __init__(self, es_url: Optional[str] = None):
         """
@@ -67,22 +70,56 @@ class ESSearchService:
         Returns:
             搜索结果列表
         """
-        # 构建 IK 分词查询
+        # 构建查询 - 结合精确匹配和宽松匹配，返回更多相关结果
         search_body = {
             "query": {
-                "multi_match": {
-                    "query": query,
-                    "fields": [
-                        "name^3",  # 菜名权重 3
-                        "description^2",  # 描述权重 2
-                        "ingredients^1.5",  # 食材权重 1.5
-                        "steps",  # 步骤权重 1
+                "bool": {
+                    "should": [
+                        # 1. 精确短语匹配（最高优先级）
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": [
+                                    "name^20",
+                                    "description^10",
+                                    "ingredients^5",
+                                ],
+                                "type": "phrase",
+                                "slop": 3,
+                            }
+                        },
+                        # 2. 宽松匹配（返回更多相关结果）
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": [
+                                    "name^15",
+                                    "description^8",
+                                    "ingredients^4",
+                                    "steps^2",
+                                ],
+                                "type": "best_fields",
+                                "minimum_should_match": "30%",
+                            }
+                        },
+                        # 3. 前缀匹配（匹配词开头）
+                        {
+                            "multi_match": {
+                                "query": query,
+                                "fields": [
+                                    "name^10",
+                                    "description^5",
+                                    "ingredients^2",
+                                ],
+                                "type": "prefix",
+                            }
+                        },
                     ],
-                    "type": "best_fields",
-                    "operator": "or",
+                    "minimum_should_match": 1,
                 }
             },
             "size": size,
+            "min_score": 0.01,  # 降低最低分数阈值，返回更多结果
         }
 
         # 添加过滤条件

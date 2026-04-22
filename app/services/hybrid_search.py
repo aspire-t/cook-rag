@@ -119,7 +119,14 @@ class HybridSearch:
         filters: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
         """执行 ES 搜索."""
-        return await self.es_service.search(query, filters, size=self.top_n)
+        es_results = await self.es_service.search(query, filters, size=self.top_n)
+        # 将 ES 结果转换为统一格式（包含 payload 字段）
+        # 注意：ES 返回的结果中 id 字段可能不存在，需要从 payload 中获取
+        results = []
+        for r in es_results:
+            recipe_id = r.get("id") or r.get("recipe_id") or ""
+            results.append({"recipe_id": recipe_id, "score": 0.0, "payload": r})
+        return results
 
     async def _search_qdrant(
         self,

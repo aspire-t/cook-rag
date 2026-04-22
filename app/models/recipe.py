@@ -133,6 +133,10 @@ class Recipe(Base):
         back_populates="recipe",
         cascade="all, delete-orphan",
     )
+    images: Mapped[list["RecipeImage"]] = relationship(
+        back_populates="recipe",
+        cascade="all, delete-orphan",
+    )
 
     __table_args__ = (
         Index("idx_recipes_public_audit", "is_public", "audit_status", postgresql_where="is_public = true"),

@@ -68,6 +68,15 @@ class Settings(BaseSettings):
     SESSION_TTL: int = 1800  # 30 分钟
     MAX_CONVERSATION_HISTORY: int = 20  # 最大历史消息数
 
+    # Image Storage
+    IMAGE_REPO_NAME: str = "cook-rag-images"  # GitHub 图片仓库名
+    IMAGE_REPO_OWNER: str = "aspire-t"  # GitHub 用户名
+    IMAGE_BASE_CDN_URL: str = "https://cdn.jsdelivr.net/gh/aspire-t/cook-rag-images@main/"
+
+    # CLIP Model
+    CLIP_MODEL_NAME: str = "OFA-Sys/chinese-clip-vit-base-patch16"
+    CLIP_DEVICE: str = "mps"  # mps/cuda/cpu
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

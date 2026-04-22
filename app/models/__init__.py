@@ -24,6 +24,7 @@ from .step import RecipeStep
 from .favorite import Favorite
 from .search_history import SearchHistory
 from .report import Report
+from .recipe_image import RecipeImage
 
 __all__ = [
     "Base",
@@ -34,4 +35,5 @@ __all__ = [
     "Favorite",
     "SearchHistory",
     "Report",
+    "RecipeImage",
 ]

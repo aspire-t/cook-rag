@@ -50,7 +50,6 @@ PAYLOAD_SCHEMA = {
     "cook_time": {"type": "integer", "description": "烹饪时间（分钟）"},
     # 多租户隔离
     "user_id": {"type": "keyword", "description": "用户 ID"},
-    "enterprise_id": {"type": "keyword", "description": "企业 ID"},
     # 公开状态
     "is_public": {"type": "boolean", "description": "是否公开"},
     # 审核状态

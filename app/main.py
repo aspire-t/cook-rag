@@ -57,17 +57,12 @@ async def lifespan(app: FastAPI):
         try:
             # 导入所有模型以注册到 Base.metadata
             from app.models.user import User
-            from app.models.enterprise import Enterprise, EnterpriseUser
             from app.models.recipe import Recipe
             from app.models.ingredient import RecipeIngredient
             from app.models.step import RecipeStep
             from app.models.favorite import Favorite
             from app.models.search_history import SearchHistory
             from app.models.report import Report
-            from app.models.standard_recipe import StandardRecipe
-            from app.models.inventory import Inventory, InventoryTransaction
-            from app.models.supplier import Supplier
-            from app.models.purchase_order import PurchaseOrder
 
             # 创建扩展和表
             with sync_engine.begin() as conn:

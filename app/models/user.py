@@ -52,23 +52,11 @@ class User(Base):
     # 关联
     recipes: Mapped[list["Recipe"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     favorites: Mapped[list["Favorite"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-    enterprise_users: Mapped[list["EnterpriseUser"]] = relationship(
-        back_populates="user",
-        cascade="all, delete-orphan",
-    )
     search_histories: Mapped[list["SearchHistory"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan",
     )
     reports: Mapped[list["Report"]] = relationship(
-        back_populates="user",
-        cascade="all, delete-orphan",
-    )
-    inventory_transactions: Mapped[list["InventoryTransaction"]] = relationship(
-        back_populates="user",
-        cascade="all, delete-orphan",
-    )
-    purchase_orders: Mapped[list["PurchaseOrder"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan",
     )

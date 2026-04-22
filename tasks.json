@@ -410,46 +410,50 @@
     "id": "31",
     "subject": "B 端企业用户管理",
     "description": "企业表、企业 - 用户关联表，角色权限（admin/chef/manager/purchaser）",
-    "status": "completed",
+    "status": "deleted",
     "sprint": "B 端 Phase 1",
     "priority": "P2",
     "dependencies": [
       "3"
-    ]
+    ],
+    "deleted_reason": "用户决定暂时不考虑 B 端功能"
   },
   {
     "id": "32",
     "subject": "B 端标准化配方生成",
     "description": "LLM 生成 SOP、成本核算、营养成分表、过敏原信息",
-    "status": "completed",
+    "status": "deleted",
     "sprint": "B 端 Phase 1",
     "priority": "P2",
     "dependencies": [
       "16",
       "31"
-    ]
+    ],
+    "deleted_reason": "用户决定暂时不考虑 B 端功能"
   },
   {
     "id": "33",
     "subject": "B 端库存管理",
     "description": "库存表、入库/出库、库存预警、保质期管理",
-    "status": "completed",
+    "status": "deleted",
     "sprint": "B 端 Phase 2",
     "priority": "P2",
     "dependencies": [
       "31"
-    ]
+    ],
+    "deleted_reason": "用户决定暂时不考虑 B 端功能"
   },
   {
     "id": "34",
     "subject": "B 端采购规划",
     "description": "采购清单生成、供应商管理、采购订单",
-    "status": "completed",
+    "status": "deleted",
     "sprint": "B 端 Phase 2",
     "priority": "P2",
     "dependencies": [
       "32",
       "33"
-    ]
+    ],
+    "deleted_reason": "用户决定暂时不考虑 B 端功能"
   }
 ]

@@ -32,16 +32,12 @@ class Recipe(Base):
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     description: Mapped[str | None] = mapped_column(nullable=True)
 
-    # 关联用户/企业（可选，系统菜谱为 NULL）
+    # 关联用户（可选，系统菜谱为 NULL）
     user_id: Mapped[uuid.UUID | None] = mapped_column(
         ForeignKey("users.id", ondelete="SET NULL"),
         nullable=True,
         index=True,
     )
-    enterprise_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True),
-        nullable=True,
-    )  # MVP 阶段暂不实现
 
     # 菜系分类
     cuisine: Mapped[str | None] = mapped_column(String(50), nullable=True, index=True)
@@ -134,10 +130,6 @@ class Recipe(Base):
         cascade="all, delete-orphan",
     )
     reports: Mapped[list["Report"]] = relationship(
-        back_populates="recipe",
-        cascade="all, delete-orphan",
-    )
-    standard_recipes: Mapped[list["StandardRecipe"]] = relationship(
         back_populates="recipe",
         cascade="all, delete-orphan",
     )

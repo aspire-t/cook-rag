@@ -46,7 +46,7 @@ async def main():
     print("数据库连接成功")
 
     recipes = await conn.fetch("""
-        SELECT r.id, r.name, r.description, r.cuisine, r.difficulty,
+        SELECT r.id, r.name, r.description, r.cuisine, r.difficulty, r.star_rating,
                r.prep_time, r.cook_time, r.tags, r.user_id,
                r.is_public, r.audit_status, r.source_type,
                r.source_url, r.created_at
@@ -92,6 +92,7 @@ async def main():
             "steps": steps[:2000],
             "cuisine": recipe["cuisine"] or "",
             "difficulty": recipe["difficulty"] or "",
+            "star_rating": recipe["star_rating"] or "",
             "tags": recipe["tags"] or [],
             "prep_time": recipe["prep_time"],
             "cook_time": recipe["cook_time"],

@@ -175,6 +175,7 @@ def parse_markdown(file_path: Path) -> Optional[dict]:
     if diff_match:
         difficulty_text = diff_match.group(1)
     difficulty = parse_difficulty(difficulty_text)
+    star_rating = difficulty_text if difficulty_text else None  # 保存原始星级
 
     # 提取菜系分类（从目录路径）
     rel_path = str(file_path.relative_to(HOWTOCOOK_PATH / "dishes"))
@@ -225,6 +226,7 @@ def parse_markdown(file_path: Path) -> Optional[dict]:
         "description": description or f"{name}的做法",
         "cuisine": cuisine,
         "difficulty": difficulty,
+        "star_rating": star_rating,
         "prep_time": prep_time,
         "cook_time": cook_time,
         "servings": 1,
@@ -254,6 +256,7 @@ async def import_recipe(session: AsyncSession, recipe_data: dict):
         description=recipe_data["description"],
         cuisine=recipe_data["cuisine"],
         difficulty=recipe_data["difficulty"],
+        star_rating=recipe_data["star_rating"],
         prep_time=recipe_data["prep_time"],
         cook_time=recipe_data["cook_time"],
         servings=recipe_data["servings"],

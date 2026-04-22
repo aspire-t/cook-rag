@@ -53,6 +53,10 @@ class Recipe(Base):
         nullable=True,
         index=True,
     )
+    star_rating: Mapped[str | None] = mapped_column(
+        String(10),
+        nullable=True,
+    )  # 原始星级（★★☆）
     prep_time: Mapped[int | None] = mapped_column(
         Integer,
         CheckConstraint("prep_time >= 0", name="check_prep_time"),

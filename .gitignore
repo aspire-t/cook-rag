@@ -60,3 +60,15 @@ harness/logs/
 
 # Docker
 docker-compose.override.yml
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Playwright MCP
+.playwright-mcp/
+
+# Test files
+tests/web_demo.html
+start_sqlite.py

@@ -3,11 +3,16 @@
 import uuid
 from datetime import datetime, timezone
 from decimal import Decimal
-from sqlalchemy import String, Boolean, DateTime, ForeignKey, Text, Numeric
+from typing import TYPE_CHECKING
+from sqlalchemy import String, Boolean, DateTime, ForeignKey, Text, Numeric, Index
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 
 from . import Base
+
+if TYPE_CHECKING:
+    from .enterprise import Enterprise
+    from .purchase_order import PurchaseOrder
 
 
 class Supplier(Base):
@@ -57,6 +62,17 @@ class Supplier(Base):
         default=lambda: datetime.now(timezone.utc),
         onupdate=lambda: datetime.now(timezone.utc),
         nullable=False,
+    )
+
+    # 关联关系
+    enterprise: Mapped["Enterprise"] = relationship(back_populates="suppliers")
+    purchase_orders: Mapped[list["PurchaseOrder"]] = relationship(
+        back_populates="supplier",
+        cascade="all, delete-orphan",
+    )
+
+    __table_args__ = (
+        Index("idx_suppliers_enterprise", "enterprise_id"),
     )
 
     def __repr__(self) -> str:

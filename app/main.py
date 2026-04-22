@@ -3,6 +3,7 @@ CookRAG - 企业级菜谱 RAG 系统
 FastAPI 应用入口
 """
 
+import os
 from fastapi import FastAPI, HTTPException, Request, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -32,8 +33,54 @@ async def lifespan(app: FastAPI):
     logger.info("Starting CookRAG API...")
 
     # 创建数据库表
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    from sqlalchemy import create_engine as create_sync_engine, text
+
+    # SQLite 需要同步创建表
+    if settings.DATABASE_URL.startswith("sqlite") and not os.getenv("SKIP_DB_CREATE"):
+        sync_engine = create_sync_engine(
+            settings.DATABASE_URL.replace("sqlite+aiosqlite", "sqlite"),
+            connect_args={"check_same_thread": False}
+        )
+        # 禁用外键约束后创建表
+        with sync_engine.begin() as conn:
+            conn.execute(text("PRAGMA foreign_keys=OFF"))
+        Base.metadata.create_all(sync_engine)
+        sync_engine.dispose()
+    elif not settings.DATABASE_URL.startswith("sqlite"):
+        # PostgreSQL - 使用同步引擎创建表以确保正确的外键顺序
+        from sqlalchemy.pool import StaticPool
+        sync_engine = create_sync_engine(
+            settings.DATABASE_URL.replace("postgresql+asyncpg", "postgresql"),
+            pool_pre_ping=True,
+            poolclass=StaticPool,
+        )
+        try:
+            # 导入所有模型以注册到 Base.metadata
+            from app.models.user import User
+            from app.models.enterprise import Enterprise, EnterpriseUser
+            from app.models.recipe import Recipe
+            from app.models.ingredient import RecipeIngredient
+            from app.models.step import RecipeStep
+            from app.models.favorite import Favorite
+            from app.models.search_history import SearchHistory
+            from app.models.report import Report
+            from app.models.standard_recipe import StandardRecipe
+            from app.models.inventory import Inventory, InventoryTransaction
+            from app.models.supplier import Supplier
+            from app.models.purchase_order import PurchaseOrder
+
+            # 创建扩展和表
+            with sync_engine.begin() as conn:
+                conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+                # 在事务内创建表
+                Base.metadata.create_all(conn)
+
+            logger.info("Database tables created successfully")
+        except Exception as e:
+            logger.error(f"Failed to create database tables: {e}")
+            raise
+        finally:
+            sync_engine.dispose()
 
     logger.info("CookRAG API started successfully")
 
@@ -53,11 +100,12 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# 配置 CORS
+# 配置 CORS - 允许所有来源用于本地测试
+# 注意：allow_origins=["*"] 不能与 allow_credentials=True 同时使用
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,  # 本地测试不需要 credentials
     allow_methods=["*"],
     allow_headers=["*"],
 )

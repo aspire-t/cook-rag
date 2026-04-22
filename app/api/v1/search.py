@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 from app.services.hybrid_search import get_hybrid_search_service
 from app.services.rerank_service import rerank_candidates
-from app.core.auth import get_current_user
+from app.core.auth import get_current_user, get_optional_user
 from app.models.user import User
 
 router = APIRouter()
@@ -62,7 +62,7 @@ class RecommendResponse(BaseModel):
 @router.post("/search", response_model=SearchResponse)
 async def search_recipes(
     request: SearchRequest,
-    current_user: Optional[User] = Depends(get_current_user),
+    current_user: Optional[User] = Depends(get_optional_user),
 ):
     """
     搜索菜谱.

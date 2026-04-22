@@ -56,6 +56,14 @@ class User(Base):
         back_populates="user",
         cascade="all, delete-orphan",
     )
+    search_histories: Mapped[list["SearchHistory"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    reports: Mapped[list["Report"]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
     inventory_transactions: Mapped[list["InventoryTransaction"]] = relationship(
         back_populates="user",
         cascade="all, delete-orphan",

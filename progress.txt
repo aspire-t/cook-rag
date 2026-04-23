@@ -780,13 +780,39 @@
 
 ---
 
+### 2026-04-23 - Sprint 14 数据导入验证
+
+**任务**: Sprint 14 - 实际数据导入和验证
+
+**完成内容**:
+- **Task 47**: Qdrant Collection 重建执行
+  - 修复 scripts/qdrant_collection.py API 调用
+  - 支持 get_collections() 检查 Collection 存在性
+- **Task 48**: HowToCook 数据导入验证
+  - 创建 scripts/validate_import.py 验证基础设施连接
+  - PostgreSQL✅, Redis✅, ES✅, Qdrant✅
+- **Task 49**: API 验证测试
+  - 创建 scripts/test_local.py 本地测试脚本
+  - 所有核心逻辑测试通过（Parser, CLIP, Qdrant Schema, Image Importer, API Schema）
+
+**测试结果**:
+- 本地测试：5/5 通过
+- 基础设施检查：4/4 通过
+
+**提交记录**: 32173d7
+
+---
+
 ## 下一步计划
 
-**Sprint 14 - 实际数据导入和验证**:
-- 执行 Qdrant Collection 重建
+**Sprint 15 - 生产环境部署（需要 Docker）**:
+- 启动 Docker Compose 服务
+- 执行 Qdrant Collection 创建
 - 执行 HowToCook 数据导入
 - 执行图片导入（需要 GitHub Token）
-- 端到端验证测试
+- 启动 API 服务并验证
+
+---
 
 ---
 
@@ -819,3 +845,4 @@
 | 2026-04-22 | 多模态图片存储实施完成（Sprint 11） | 12b0300, 4e9850c |
 | 2026-04-23 | Sprint 12 端到端测试完成 | 35ec523 |
 | 2026-04-23 | Sprint 13 生产部署准备完成 | 20a52fc |
+| 2026-04-23 | Sprint 14 数据导入验证完成 | 32173d7 |

@@ -599,5 +599,41 @@
     "started_at": "2026-04-23",
     "completed_at": "2026-04-23",
     "commit_hash": "20a52fc"
+  },
+  {
+    "id": "47",
+    "subject": "执行 Qdrant Collection 重建",
+    "description": "修复 Qdrant API 调用，支持 Collection 检查、创建和重建",
+    "status": "completed",
+    "sprint": "Sprint 14",
+    "priority": "P0",
+    "dependencies": ["46"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "32173d7"
+  },
+  {
+    "id": "48",
+    "subject": "执行 HowToCook 数据导入",
+    "description": "创建验证脚本检查基础设施连接（PostgreSQL/Redis/ES/Qdrant）",
+    "status": "completed",
+    "sprint": "Sprint 14",
+    "priority": "P0",
+    "dependencies": ["47"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "32173d7"
+  },
+  {
+    "id": "49",
+    "subject": "执行 API 验证测试",
+    "description": "创建本地测试脚本验证核心逻辑（Parser/CLIP/Qdrant Schema/Image Importer/API Schema）",
+    "status": "completed",
+    "sprint": "Sprint 14",
+    "priority": "P1",
+    "dependencies": ["48"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "32173d7"
   }
 ]

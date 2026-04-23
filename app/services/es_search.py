@@ -111,7 +111,7 @@ class ESSearchService:
                                     "description^5",
                                     "ingredients^2",
                                 ],
-                                "type": "prefix",
+                                "type": "phrase_prefix",
                             }
                         },
                     ],

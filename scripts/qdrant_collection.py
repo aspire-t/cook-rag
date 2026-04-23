@@ -73,9 +73,13 @@ def create_collection(client: QdrantClient, collection_name: str):
     config = get_collection_config()
 
     try:
+        # Qdrant API 需要 vectors_config 参数
         client.create_collection(
             collection_name=collection_name,
-            **config
+            vectors_config=config["vectors"],
+            quantization_config=config.get("quantization_config"),
+            shard_number=config.get("shard_number", 1),
+            replication_factor=config.get("replication_factor", 1),
         )
         print("✅ Collection 创建成功")
 

@@ -31,9 +31,9 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import select, text
 from app.models.recipe import Recipe
-from app.models.recipe_ingredient import RecipeIngredient
-from app.models.recipe_step import RecipeStep
-from app.core.database import get_db_session
+from app.models.ingredient import RecipeIngredient
+from app.models.step import RecipeStep
+from app.core.database import AsyncSessionLocal
 from app.core.config import settings
 
 
@@ -42,8 +42,9 @@ class HowToCookParser:
 
     def __init__(self):
         self.section_patterns = {
-            "ingredients": re.compile(r"## 食材\s*.*?(?=##|$)", re.DOTALL),
-            "steps": re.compile(r"## 做法\s*.*?(?=##|$)", re.DOTALL),
+            # 支持多种章节标题格式
+            "ingredients": re.compile(r"## (?:食材|必备原料和工具)\s*(.*?)\n## ", re.DOTALL),
+            "steps": re.compile(r"## (?:做法|操作)\s*(.*?)\n## ", re.DOTALL),
             "tags": re.compile(r"tags:\s*\[([^\]]+)\]", re.IGNORECASE),
         }
 
@@ -101,13 +102,19 @@ class HowToCookParser:
         match = self.section_patterns["steps"].search(content)
         if match:
             section = match.group(0)
-            # 匹配数字开头的行
+            # 支持两种格式：数字开头或 - 开头的行
             for line in section.split("\n"):
                 line = line.strip()
+                # 跳过 ### 子章节标题
+                if line.startswith("###"):
+                    continue
+                # 匹配数字开头
                 if re.match(r"^\d+[\.\)]\s*", line):
-                    # 移除数字前缀
                     step_text = re.sub(r"^\d+[\.\)]\s*", "", line)
                     steps.append(step_text)
+                # 匹配 - 开头（但要排除空行和短行）
+                elif line.startswith("- ") and len(line) > 2:
+                    steps.append(line[2:].strip())
         return steps
 
     def _extract_tags(self, content: str) -> List[str]:
@@ -196,14 +203,15 @@ class DataImporter:
             # 创建菜谱
             recipe = Recipe(
                 name=data["name"],
-                content=data["content"],
+                description=data["content"][:500] if len(data["content"]) > 500 else data["content"],  # 截断描述
                 cuisine=data["cuisine"],
                 difficulty=data["difficulty"],
                 prep_time=data["prep_time"],
                 cook_time=data["cook_time"],
                 tags=data["tags"],
                 is_public=True,
-                audit_status="approved"
+                audit_status="approved",
+                source_type="howtocook"
             )
 
             db.add(recipe)
@@ -212,12 +220,28 @@ class DataImporter:
             self.stats["recipes_created"] += 1
 
             # 创建食材
-            for idx, ingredient_name in enumerate(data["ingredients"]):
+            for idx, ingredient_text in enumerate(data["ingredients"]):
+                # 解析食材文本（如 "猪里脊肉 200g" → name="猪里脊肉", amount=200, unit="g"）
+                import re
+                # 移除括号内的注释（保留主要食材名称）
+                clean_text = re.sub(r'[（(].*?[）)]', '', ingredient_text).strip()
+
+                match = re.match(r"^(.+?)(\d+(?:\.\d+)?)\s*(g|kg|ml|L|个|勺|瓣|段)?$", ingredient_text)
+                if match:
+                    name = match.group(1).strip()[:90]  # 限制长度
+                    amount = float(match.group(2)) if match.group(2) else None
+                    unit = match.group(3) if match.group(3) else None
+                else:
+                    name = clean_text[:90]  # 限制长度
+                    amount = None
+                    unit = None
+
                 recipe_ingredient = RecipeIngredient(
                     recipe_id=recipe.id,
-                    ingredient_name=ingredient_name,
-                    amount="",  # HowToCook 没有具体用量
-                    order_no=idx
+                    name=name,
+                    amount=amount,
+                    unit=unit,
+                    sequence=idx
                 )
                 db.add(recipe_ingredient)
                 self.stats["ingredients_created"] += 1
@@ -226,9 +250,8 @@ class DataImporter:
             for idx, step_content in enumerate(data["steps"]):
                 recipe_step = RecipeStep(
                     recipe_id=recipe.id,
-                    step_number=idx,
-                    description=step_content,
-                    order_no=idx
+                    step_no=idx + 1,
+                    description=step_content
                 )
                 db.add(recipe_step)
                 self.stats["steps_created"] += 1
@@ -258,7 +281,8 @@ class DataImporter:
 
         print(f"找到 {len(markdown_files)} 个菜谱文件")
 
-        async for db in get_db_session():
+        # 创建会话
+        async with AsyncSessionLocal() as db:
             batch = []
             for idx, md_file in enumerate(markdown_files):
                 self.stats["files_processed"] += 1
@@ -277,8 +301,6 @@ class DataImporter:
             # 最后提交
             if batch:
                 await db.commit()
-
-            await db.close()
 
         # 打印统计
         self._print_stats()

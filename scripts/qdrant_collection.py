@@ -30,7 +30,13 @@ def check_collection(client: QdrantClient, collection_name: str):
     print(f"\n检查 Collection: {collection_name}")
     print("=" * 50)
 
-    exists = client.collection_exists(collection_name=collection_name)
+    try:
+        collections = client.get_collections()
+        collection_names = [c.name for c in collections.collections]
+        exists = collection_name in collection_names
+    except Exception:
+        exists = False
+
     print(f"存在状态：{'✅ 存在' if exists else '❌ 不存在'}")
 
     if exists:
@@ -52,7 +58,15 @@ def create_collection(client: QdrantClient, collection_name: str):
     print(f"\n创建 Collection: {collection_name}")
     print("=" * 50)
 
-    if client.collection_exists(collection_name=collection_name):
+    # 检查是否已存在
+    try:
+        collections = client.get_collections()
+        collection_names = [c.name for c in collections.collections]
+        exists = collection_name in collection_names
+    except Exception:
+        exists = False
+
+    if exists:
         print("Collection 已存在，跳过创建")
         return True
 
@@ -105,7 +119,14 @@ def recreate_collection(client: QdrantClient, collection_name: str):
         return False
 
     # 删除旧 Collection
-    if client.collection_exists(collection_name=collection_name):
+    try:
+        collections = client.get_collections()
+        collection_names = [c.name for c in collections.collections]
+        exists = collection_name in collection_names
+    except Exception:
+        exists = False
+
+    if exists:
         print("删除旧 Collection...")
         client.delete_collection(collection_name=collection_name)
         print("✅ 删除成功")

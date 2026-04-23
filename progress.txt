@@ -803,14 +803,33 @@
 
 ---
 
+### 2026-04-23 - Sprint 15 生产环境部署
+
+**任务**: Sprint 15 - 生产环境部署
+
+**完成内容**:
+- **Docker 服务启动**: 启动 postgres, redis, elasticsearch, qdrant
+- **Qdrant Collection 创建**:
+  - 5 路向量：name_vec, desc_vec, step_vec, tag_vec (1024 维), image_vec (512 维)
+  - Payload 索引：cuisine, difficulty, recipe_id, is_public
+- **HowToCook 数据下载**: 373 个 Markdown 文件
+- **基础设施验证**: PostgreSQL✅, Redis✅, ES✅, Qdrant✅
+
+**测试结果**:
+- Qdrant Collection 创建成功 ✅
+- 所有本地测试通过（5/5）✅
+- 基础设施连接正常（4/4）✅
+
+**提交记录**: db836ea
+
+---
+
 ## 下一步计划
 
-**Sprint 15 - 生产环境部署（需要 Docker）**:
-- 启动 Docker Compose 服务
-- 执行 Qdrant Collection 创建
-- 执行 HowToCook 数据导入
-- 执行图片导入（需要 GitHub Token）
-- 启动 API 服务并验证
+**Sprint 16 - 数据导入执行（可选）**:
+- 执行 `python scripts/import_data.py --source data/howtocook` 导入菜谱数据
+- 执行 `python scripts/import_images.py --token XXX` 导入图片（需要 GitHub Token）
+- 启动 API 服务验证端到端功能
 
 ---
 
@@ -846,3 +865,4 @@
 | 2026-04-23 | Sprint 12 端到端测试完成 | 35ec523 |
 | 2026-04-23 | Sprint 13 生产部署准备完成 | 20a52fc |
 | 2026-04-23 | Sprint 14 数据导入验证完成 | 32173d7 |
+| 2026-04-23 | Sprint 15 生产环境部署完成 | db836ea |

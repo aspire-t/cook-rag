@@ -526,6 +526,42 @@
     "dependencies": ["39"],
     "started_at": "2026-04-22",
     "completed_at": "2026-04-22",
-    "commit_hash": "待提交"
+    "commit_hash": "4e9850c"
+  },
+  {
+    "id": "41",
+    "subject": "执行图片导入脚本",
+    "description": "创建图片导入脚本 scripts/import_images.py，支持从 HowToCook Markdown 解析并上传图片",
+    "status": "completed",
+    "sprint": "Sprint 12",
+    "priority": "P0",
+    "dependencies": ["40"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "35ec523"
+  },
+  {
+    "id": "42",
+    "subject": "端到端多模态搜索测试",
+    "description": "创建 tests/test_multimodal_search.py，验证 CLIP 向量化、跨模态搜索、API Schema",
+    "status": "completed",
+    "sprint": "Sprint 12",
+    "priority": "P0",
+    "dependencies": ["41"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "35ec523"
+  },
+  {
+    "id": "43",
+    "subject": "性能基准测试",
+    "description": "测试 CLIP 向量化延迟，目标：图片<500ms、文本<100ms",
+    "status": "completed",
+    "sprint": "Sprint 12",
+    "priority": "P1",
+    "dependencies": ["42"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "35ec523"
   }
 ]

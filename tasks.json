@@ -563,5 +563,41 @@
     "started_at": "2026-04-23",
     "completed_at": "2026-04-23",
     "commit_hash": "35ec523"
+  },
+  {
+    "id": "44",
+    "subject": "Qdrant Collection 重建",
+    "description": "更新 Qdrant Collection Schema，添加 image_vec 字段，支持图片向量存储和检索",
+    "status": "completed",
+    "sprint": "Sprint 13",
+    "priority": "P0",
+    "dependencies": ["43"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "20a52fc"
+  },
+  {
+    "id": "45",
+    "subject": "编写部署文档",
+    "description": "编写生产环境部署文档，包括 Docker Compose 配置、环境变量说明、启动脚本",
+    "status": "completed",
+    "sprint": "Sprint 13",
+    "priority": "P1",
+    "dependencies": ["44"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "20a52fc"
+  },
+  {
+    "id": "46",
+    "subject": "创建完整数据导入脚本",
+    "description": "创建 scripts/import_data.py，支持 HowToCook Markdown → PostgreSQL → ES → Qdrant 完整导入流程",
+    "status": "completed",
+    "sprint": "Sprint 13",
+    "priority": "P0",
+    "dependencies": ["45"],
+    "started_at": "2026-04-23",
+    "completed_at": "2026-04-23",
+    "commit_hash": "20a52fc"
   }
 ]

@@ -758,13 +758,35 @@
 
 ---
 
+### 2026-04-23 - Sprint 13 生产部署准备
+
+**任务**: Sprint 13 - 生产部署准备
+
+**完成内容**:
+- **Task 44**: Qdrant Collection 重建脚本
+  - 创建 scripts/qdrant_collection.py
+  - 支持 --create / --recreate / --check 模式
+  - 自动创建 Payload 索引
+- **Task 45**: 部署文档编写
+  - 创建 docs/deployment.md
+  - 包含系统要求、架构概述、快速开始指南
+  - 包含配置说明、数据导入流程、监控运维
+- **Task 46**: 完整数据导入脚本
+  - 创建 scripts/import_data.py
+  - HowToCook Markdown → PostgreSQL → ES → Qdrant
+  - 支持批处理和断点续传
+
+**提交记录**: 20a52fc
+
+---
+
 ## 下一步计划
 
-**Sprint 13 - 生产部署准备**:
-- 执行实际图片导入（需要 GitHub Token）
-- Qdrant Collection 重建（添加 image_vec）
-- 生产环境配置
-- 部署文档编写
+**Sprint 14 - 实际数据导入和验证**:
+- 执行 Qdrant Collection 重建
+- 执行 HowToCook 数据导入
+- 执行图片导入（需要 GitHub Token）
+- 端到端验证测试
 
 ---
 
@@ -796,3 +818,4 @@
 | 2026-04-21 | 任务列表创建 | 79b8ee6 |
 | 2026-04-22 | 多模态图片存储实施完成（Sprint 11） | 12b0300, 4e9850c |
 | 2026-04-23 | Sprint 12 端到端测试完成 | 35ec523 |
+| 2026-04-23 | Sprint 13 生产部署准备完成 | 20a52fc |

@@ -455,5 +455,77 @@
       "33"
     ],
     "deleted_reason": "用户决定暂时不考虑 B 端功能"
+  },
+  {
+    "id": "35",
+    "subject": "创建图片仓库和数据库迁移",
+    "description": "创建 aspire-t/cook-rag-images 仓库，执行数据库迁移（recipes 表新增 cover_image_url 字段，recipe_steps 表新增 image_path 字段，创建 recipe_images 元数据表）",
+    "status": "completed",
+    "sprint": "Sprint 11",
+    "priority": "P0",
+    "dependencies": [],
+    "started_at": "2026-04-22",
+    "completed_at": "2026-04-22",
+    "commit_hash": "12b0300"
+  },
+  {
+    "id": "36",
+    "subject": "实现图片导入脚本",
+    "description": "扫描 HowToCook Markdown 提取图片引用，下载并上传到自有 GitHub 仓库，生成 CDN URL，写入 recipe_images 表",
+    "status": "completed",
+    "sprint": "Sprint 11",
+    "priority": "P0",
+    "dependencies": ["35"],
+    "started_at": "2026-04-22",
+    "completed_at": "2026-04-22",
+    "commit_hash": "待提交"
+  },
+  {
+    "id": "37",
+    "subject": "集成 CLIP 向量化服务",
+    "description": "部署 Chinese-CLIP 模型（OFA-Sys/chinese-clip-vit-base-patch16），实现图片向量生成服务，批量处理已导入图片",
+    "status": "completed",
+    "sprint": "Sprint 11",
+    "priority": "P0",
+    "dependencies": ["35"],
+    "started_at": "2026-04-22",
+    "completed_at": "2026-04-22",
+    "commit_hash": "待提交"
+  },
+  {
+    "id": "38",
+    "subject": "Qdrant 图片向量集成",
+    "description": "扩展 Qdrant Collection 新增 image_vec 字段（512 维），实现图片向量上传和检索功能",
+    "status": "completed",
+    "sprint": "Sprint 11",
+    "priority": "P0",
+    "dependencies": ["37"],
+    "started_at": "2026-04-22",
+    "completed_at": "2026-04-22",
+    "commit_hash": "待提交"
+  },
+  {
+    "id": "39",
+    "subject": "实现图片 API 接口",
+    "description": "GET /api/v1/c/recipes/{id}/images - 菜谱图片列表，POST /api/v1/c/search/image - 以图搜菜",
+    "status": "completed",
+    "sprint": "Sprint 11",
+    "priority": "P1",
+    "dependencies": ["38"],
+    "started_at": "2026-04-22",
+    "completed_at": "2026-04-22",
+    "commit_hash": "待提交"
+  },
+  {
+    "id": "40",
+    "subject": "多模态搜索测试与文档",
+    "description": "编写图片搜索测试用例，更新 API 文档，性能基准测试（以图搜菜延迟<500ms）",
+    "status": "completed",
+    "sprint": "Sprint 11",
+    "priority": "P1",
+    "dependencies": ["39"],
+    "started_at": "2026-04-22",
+    "completed_at": "2026-04-22",
+    "commit_hash": "待提交"
   }
 ]

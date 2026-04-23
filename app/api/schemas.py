@@ -297,3 +297,104 @@ class ReportRecipeResponse(BaseModel):
 
 
 # ============ 认证 API ============
+
+
+# ============ 图片 API ============
+
+class RecipeImageResponse(BaseModel):
+    """图片响应."""
+    id: str = Field(..., description="图片 ID")
+    step_no: Optional[int] = Field(None, description="步骤编号，封面图为 None")
+    image_type: str = Field(..., description="图片类型", example="cover")
+    image_url: str = Field(..., description="图片 URL", example="https://cdn.example.com/recipes/cover/xxx.jpg")
+    width: Optional[int] = Field(None, description="图片宽度", example=800)
+    height: Optional[int] = Field(None, description="图片高度", example=600)
+    file_size: Optional[int] = Field(None, description="文件大小（字节）", example=102400)
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": "550e8400-e29b-41d4-a716-446655440000",
+                "step_no": None,
+                "image_type": "cover",
+                "image_url": "https://cdn.example.com/recipes/cover/xxx.jpg",
+                "width": 800,
+                "height": 600,
+                "file_size": 102400
+            }
+        }
+
+
+class RecipeImagesResponse(BaseModel):
+    """图片列表响应."""
+    recipe_id: str = Field(..., description="菜谱 ID")
+    cover: Optional[RecipeImageResponse] = Field(None, description="封面图")
+    steps: List[RecipeImageResponse] = Field(default_factory=list, description="步骤图列表")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "recipe_id": "550e8400-e29b-41d4-a716-446655440000",
+                "cover": {
+                    "id": "550e8400-e29b-41d4-a716-446655440001",
+                    "step_no": None,
+                    "image_type": "cover",
+                    "image_url": "https://cdn.example.com/recipes/cover/xxx.jpg",
+                    "width": 800,
+                    "height": 600,
+                    "file_size": 102400
+                },
+                "steps": [
+                    {
+                        "id": "550e8400-e29b-41d4-a716-446655440002",
+                        "step_no": 1,
+                        "image_type": "step",
+                        "image_url": "https://cdn.example.com/recipes/steps/xxx_1.jpg",
+                        "width": 800,
+                        "height": 600,
+                        "file_size": 81920
+                    }
+                ]
+            }
+        }
+
+
+class ImageSearchRequest(BaseModel):
+    """图片搜索请求."""
+    image_url: Optional[str] = Field(None, description="图片 URL", example="https://example.com/image.jpg")
+    image_base64: Optional[str] = Field(None, description="Base64 图片数据")
+    text_query: Optional[str] = Field(None, description="文本查询", example="红烧肉")
+    limit: int = Field(default=10, description="返回数量", ge=1, le=50)
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "image_url": "https://example.com/image.jpg",
+                "image_base64": None,
+                "text_query": "红烧肉",
+                "limit": 10
+            }
+        }
+
+
+class ImageSearchResponse(BaseModel):
+    """图片搜索响应."""
+    query_type: str = Field(..., description="查询类型", example="image")
+    results: List[Dict[str, Any]] = Field(default_factory=list, description="搜索结果列表")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "query_type": "image",
+                "results": [
+                    {
+                        "id": "550e8400-e29b-41d4-a716-446655440000",
+                        "score": 0.95,
+                        "payload": {
+                            "recipe_name": "红烧肉",
+                            "cuisine": "川菜"
+                        }
+                    }
+                ]
+            }
+        }

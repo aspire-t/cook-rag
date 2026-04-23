@@ -1,6 +1,7 @@
 """Qdrant 向量检索服务."""
 
 from typing import List, Dict, Any, Optional
+import numpy as np
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import (
     Distance,
@@ -173,6 +174,66 @@ class QdrantService:
         results = self.client.search(
             collection_name=self.collection_name,
             query_vector=(vector_name, query),
+            query_filter=query_filter,
+            limit=limit,
+            with_payload=True,
+        )
+
+        return [
+            {
+                "id": hit.id,
+                "score": hit.score,
+                "payload": hit.payload,
+            }
+            for hit in results
+        ]
+
+    def search_image_vector(
+        self,
+        query_vector: np.ndarray,
+        limit: int = 10,
+        filters: Optional[Dict[str, Any]] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        搜索相似图片向量.
+
+        Args:
+            query_vector: 512 维 CLIP 向量 (numpy array)
+            limit: 返回数量
+            filters: 过滤条件
+
+        Returns:
+            匹配的菜谱列表
+        """
+        # 构建过滤条件
+        query_filter = None
+        if filters:
+            conditions = []
+            if filters.get("cuisine"):
+                conditions.append(
+                    FieldCondition(key="cuisine", match=MatchValue(value=filters["cuisine"]))
+                )
+            if filters.get("difficulty"):
+                conditions.append(
+                    FieldCondition(key="difficulty", match=MatchValue(value=filters["difficulty"]))
+                )
+            if filters.get("max_prep_time"):
+                conditions.append(
+                    FieldCondition(key="prep_time", range=Range(lte=filters["max_prep_time"]))
+                )
+            if filters.get("user_id"):
+                conditions.append(
+                    FieldCondition(key="user_id", match=MatchValue(value=filters["user_id"]))
+                )
+            if conditions:
+                query_filter = Filter(must=conditions)
+
+        # 转换 numpy 为 list
+        vector_list = query_vector.flatten().tolist() if hasattr(query_vector, 'flatten') else list(query_vector)
+
+        results = self.client.search(
+            collection_name=self.collection_name,
+            query_vector=("image_vec", vector_list),
             query_filter=query_filter,
             limit=limit,
             with_payload=True,

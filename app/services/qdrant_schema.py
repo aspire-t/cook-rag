@@ -21,11 +21,13 @@ def get_collection_config() -> dict:
     """
     return {
         "vectors": {
-            # 四路向量配置
+            # 四路文本向量（BGE-M3, 1024 维）
             "name_vec": VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
             "desc_vec": VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
             "step_vec": VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
             "tag_vec": VectorParams(size=VECTOR_SIZE, distance=Distance.COSINE),
+            # 图片向量（Chinese-CLIP, 512 维）
+            "image_vec": VectorParams(size=512, distance=Distance.COSINE),
         },
         # 二进制量化，减少内存占用
         "quantization_config": BinaryQuantization(

@@ -1,10 +1,9 @@
 """测试图片 URL 迁移."""
 
-import pytest
 from pathlib import Path
 import sys
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 class TestBuildImageURL:

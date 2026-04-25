@@ -142,8 +142,8 @@ async def search_by_image(
         )
 
     # 搜索
-    results = await qdrant_service.search_image_vector(
-        vector=query_vector,
+    results = qdrant_service.search_image_vector(
+        query_vector=query_vector,
         limit=request.limit
     )
 
@@ -206,8 +206,8 @@ async def search_multimodal(
     query_type = "image" if "image" in vectors else "text"
 
     qdrant_service = get_qdrant_service()
-    results = await qdrant_service.search_image_vector(
-        vector=query_vector,
+    results = qdrant_service.search_image_vector(
+        query_vector=query_vector,
         limit=limit
     )
 

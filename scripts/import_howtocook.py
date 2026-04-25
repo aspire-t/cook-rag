@@ -18,7 +18,7 @@ from datetime import datetime, timezone
 
 # ==================== 配置 ====================
 
-HOWTOCOOK_PATH = Path("/tmp/HowToCook")
+HOWTOCOOK_PATH = Path(__file__).parent.parent / "data" / "howtocook" / "public" / "content"
 DATABASE_URL = "postgresql+asyncpg://cookrag:password@localhost:5432/cookrag"
 
 # ==================== 解析器 ====================

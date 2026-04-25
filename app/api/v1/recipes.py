@@ -72,7 +72,7 @@ async def get_recipe_detail(
         )
         ingredients = [
             IngredientItem(
-                name=ing.ingredient_name,
+                name=ing.name,
                 amount=str(ing.amount) if ing.amount else None,
                 unit=ing.unit,
                 sequence=ing.sequence,

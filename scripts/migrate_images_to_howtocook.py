@@ -28,8 +28,11 @@ def build_image_index():
     for img_path in IMAGES_DIR.rglob("*"):
         if img_path.is_file() and img_path.suffix.lower() in (".jpeg", ".jpg", ".png", ".webp"):
             # source_path 格式: "meat_dish/红烧肉.jpeg"
-            rel = img_path.relative_to(IMAGES_DIR / "dishes")
-            index.add(str(rel))
+            try:
+                rel = img_path.relative_to(IMAGES_DIR / "dishes")
+                index.add(str(rel))
+            except ValueError:
+                pass  # skip files outside the dishes subdirectory
     return index
 
 
@@ -44,31 +47,38 @@ async def migrate_images():
     unmatched = 0
     missing_list = []
 
-    async with async_session() as session:
-        rows = await session.execute(
-            text("SELECT id, source_path, image_url FROM recipe_images")
-        )
-        rows = rows.fetchall()
-        print(f"待迁移图片: {len(rows)} 条记录")
-
-        for row in rows:
-            img_id, source_path, old_url = row
-            if source_path in image_index:
-                new_url = GITHUB_PAGES_BASE + source_path
-                await session.execute(
-                    text("UPDATE recipe_images SET image_url = :url WHERE id = :id"),
-                    {"url": new_url, "id": str(img_id)},
+    try:
+        async with async_session() as session:
+            try:
+                rows = await session.execute(
+                    text("SELECT id, source_path, image_url FROM recipe_images")
                 )
-                matched += 1
-            else:
-                unmatched += 1
-                missing_list.append({
-                    "id": str(img_id),
-                    "source_path": source_path,
-                    "old_url": old_url,
-                })
+                rows = rows.fetchall()
+                print(f"待迁移图片: {len(rows)} 条记录")
 
-        await session.commit()
+                for row in rows:
+                    img_id, source_path, old_url = row
+                    if source_path in image_index:
+                        new_url = GITHUB_PAGES_BASE + source_path
+                        await session.execute(
+                            text("UPDATE recipe_images SET image_url = :url WHERE id = :id"),
+                            {"url": new_url, "id": str(img_id)},
+                        )
+                        matched += 1
+                    else:
+                        unmatched += 1
+                        missing_list.append({
+                            "id": str(img_id),
+                            "source_path": source_path,
+                            "old_url": old_url,
+                        })
+
+                await session.commit()
+            except Exception as e:
+                await session.rollback()
+                raise RuntimeError(f"迁移过程中出错: {e}") from e
+    finally:
+        await engine.dispose()
 
     # 输出统计
     total = matched + unmatched
@@ -88,5 +98,4 @@ async def migrate_images():
 
 
 if __name__ == "__main__":
-    os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///./cookrag.db"
     asyncio.run(migrate_images())

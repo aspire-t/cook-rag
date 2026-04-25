@@ -25,6 +25,7 @@ class StepItem(BaseModel):
     step_no: int
     description: str
     duration_seconds: Optional[int] = None
+    image_url: Optional[str] = None
 
 
 class RecipeDetailResponse(BaseModel):
@@ -41,6 +42,9 @@ class RecipeDetailResponse(BaseModel):
     favorites_count: int = 0
     view_count: int = 0
     rating: Optional[float] = None
+    cover_image: Optional[str] = None
+    cover_fallback_url: Optional[str] = None
+    step_images: List[dict] = []
 
 
 @router.get("/{recipe_id}", response_model=RecipeDetailResponse)
@@ -97,6 +101,35 @@ async def get_recipe_detail(
         recipe.view_count = (recipe.view_count or 0) + 1
         await db.commit()
 
+        # 查询图片
+        from app.models.recipe_image import RecipeImage
+        from app.services.image_url_builder import build_fallback_image_url
+        import uuid as _uuid
+
+        recipe_uuid = _uuid.UUID(recipe_id)
+        images_result = await db.execute(
+            select(RecipeImage)
+            .where(RecipeImage.recipe_id == recipe_uuid)
+            .order_by(RecipeImage.step_no.nullsfirst(), RecipeImage.id)
+        )
+        images = images_result.scalars().all()
+
+        cover_image = None
+        cover_fallback = None
+        step_images = []
+        for img in images:
+            fallback = build_fallback_image_url(img.source_path)
+            if img.image_type == "cover":
+                cover_image = img.image_url
+                cover_fallback = fallback
+            else:
+                step_images.append({
+                    "step_no": img.step_no,
+                    "url": img.image_url,
+                    "fallback_url": fallback,
+                })
+        step_images.sort(key=lambda x: x["step_no"] or 0)
+
         return RecipeDetailResponse(
             id=str(recipe.id),
             name=recipe.name,
@@ -111,6 +144,9 @@ async def get_recipe_detail(
             favorites_count=recipe.favorite_count or 0,
             view_count=recipe.view_count or 0,
             rating=None,
+            cover_image=cover_image,
+            cover_fallback_url=cover_fallback,
+            step_images=step_images,
         )
 
     except HTTPException:

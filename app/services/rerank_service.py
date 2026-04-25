@@ -5,7 +5,8 @@
 
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
-from app.models.rerank_model import RerankModel, get_rerank_model
+from app.core.config import settings
+import os
 import asyncio
 
 
@@ -33,7 +34,7 @@ class RerankService:
 
     def __init__(
         self,
-        rerank_model: Optional[RerankModel] = None,
+        rerank_model=None,
         rerank_weight: float = 0.6,
         preference_weight: float = 0.25,
         popularity_weight: float = 0.15,
@@ -49,11 +50,24 @@ class RerankService:
             popularity_weight: 菜谱热度权重
             rerank_top_k: 送入 Rerank 的候选数量
         """
-        self.rerank_model = rerank_model or get_rerank_model()
         self.rerank_weight = rerank_weight
         self.preference_weight = preference_weight
         self.popularity_weight = popularity_weight
         self.rerank_top_k = rerank_top_k
+        self._enabled = os.environ.get("ENABLE_RERANK", "true").lower() != "false"
+        self._rerank_model = rerank_model
+
+    @property
+    def rerank_model(self):
+        """Lazy-load rerank model."""
+        if not hasattr(self, '_model_loaded'):
+            self._model_loaded = True
+            if self._enabled:
+                from app.models.rerank_model import get_rerank_model
+                self._rerank_model = get_rerank_model()
+            else:
+                self._rerank_model = None
+        return self._rerank_model
 
     async def rerank(
         self,
@@ -159,6 +173,8 @@ class RerankService:
         Returns:
             {index: score}
         """
+        if not self._enabled or not self.rerank_model:
+            return {i: 0.5 for i in range(len(documents))}
         try:
             scored_indices = await self.rerank_model.rerank_batch(
                 query,

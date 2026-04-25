@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776655194462,
+  "lastScanned": 1777034824058,
   "projectRoot": "/Users/wangzhentao/code/cook-rag",
   "techStack": {
     "languages": [
@@ -25,7 +25,7 @@
     "scripts": {}
   },
   "conventions": {
-    "namingStyle": null,
+    "namingStyle": "snake_case",
     "importStyle": null,
     "testPattern": null,
     "fileOrganization": null
@@ -36,76 +36,437 @@
     "mainDirectories": [
       "app",
       "docs",
+      "scripts",
       "tests"
     ],
     "gitBranches": null
   },
   "customNotes": [],
   "directoryMap": {
+    "alembic": {
+      "path": "alembic",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1777034824015,
+      "keyFiles": [
+        "env.py",
+        "script.py.mako"
+      ]
+    },
     "app": {
       "path": "app",
       "purpose": "Application code",
+      "fileCount": 2,
+      "lastAccessed": 1777034824034,
+      "keyFiles": [
+        "main.py"
+      ]
+    },
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1776655194442,
+      "lastAccessed": 1777034824034,
       "keyFiles": []
     },
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
+      "fileCount": 2,
+      "lastAccessed": 1777034824036,
+      "keyFiles": [
+        "deployment.md"
+      ]
+    },
+    "elasticsearch": {
+      "path": "elasticsearch",
+      "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1776655194443,
+      "lastAccessed": 1777034824038,
       "keyFiles": []
     },
     "harness": {
       "path": "harness",
       "purpose": null,
-      "fileCount": 2,
-      "lastAccessed": 1776655194444,
+      "fileCount": 3,
+      "lastAccessed": 1777034824039,
       "keyFiles": [
+        "llm_client.py",
         "orchestrator.py"
       ]
     },
     "monitoring": {
       "path": "monitoring",
       "purpose": null,
-      "fileCount": 0,
-      "lastAccessed": 1776655194444,
-      "keyFiles": []
+      "fileCount": 2,
+      "lastAccessed": 1777034824041,
+      "keyFiles": [
+        "grafana-dashboard.json",
+        "grafana-dashboard.md"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 17,
+      "lastAccessed": 1777034824041,
+      "keyFiles": [
+        "import_data.py",
+        "import_howtocook.py",
+        "import_images.py",
+        "init_es.sh",
+        "init_es_data.py"
+      ]
     },
     "tests": {
       "path": "tests",
       "purpose": "Test files",
-      "fileCount": 1,
-      "lastAccessed": 1776655194444,
-      "keyFiles": []
+      "fileCount": 33,
+      "lastAccessed": 1777034824042,
+      "keyFiles": [
+        "conftest.py",
+        "locustfile.py",
+        "test_api.py",
+        "test_api_docs.py",
+        "test_auth.py"
+      ]
     },
     "app/api": {
       "path": "app/api",
       "purpose": "API routes",
-      "fileCount": 0,
-      "lastAccessed": 1776655194445,
-      "keyFiles": []
+      "fileCount": 4,
+      "lastAccessed": 1777034824043,
+      "keyFiles": [
+        "__init__.py",
+        "routes.py",
+        "schemas.py"
+      ]
+    },
+    "app/middleware": {
+      "path": "app/middleware",
+      "purpose": "Middleware",
+      "fileCount": 1,
+      "lastAccessed": 1777034824043,
+      "keyFiles": [
+        "rate_limit.py"
+      ]
     },
     "app/models": {
       "path": "app/models",
       "purpose": "Data models",
-      "fileCount": 0,
-      "lastAccessed": 1776655194445,
-      "keyFiles": []
+      "fileCount": 11,
+      "lastAccessed": 1777034824043,
+      "keyFiles": [
+        "__init__.py",
+        "favorite.py",
+        "ingredient.py"
+      ]
     },
     "app/services": {
       "path": "app/services",
       "purpose": "Business logic services",
-      "fileCount": 0,
-      "lastAccessed": 1776655194446,
-      "keyFiles": []
+      "fileCount": 27,
+      "lastAccessed": 1777034824044,
+      "keyFiles": [
+        "__init__.py",
+        "blacklist.py",
+        "cache_service.py"
+      ]
     }
   },
   "hotPaths": [
     {
+      "path": "app/api/v1/recipes.py",
+      "accessCount": 31,
+      "lastAccessed": 1777109602783,
+      "type": "file"
+    },
+    {
+      "path": "start_sqlite.py",
+      "accessCount": 19,
+      "lastAccessed": 1777105404045,
+      "type": "file"
+    },
+    {
+      "path": "progress.txt",
+      "accessCount": 17,
+      "lastAccessed": 1777106592063,
+      "type": "file"
+    },
+    {
+      "path": "tasks.json",
+      "accessCount": 14,
+      "lastAccessed": 1777094121420,
+      "type": "file"
+    },
+    {
+      "path": "scripts/migrate_images_to_howtocook.py",
+      "accessCount": 14,
+      "lastAccessed": 1777109510303,
+      "type": "file"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-25-frontend-implementation.md",
+      "accessCount": 13,
+      "lastAccessed": 1777092408948,
+      "type": "file"
+    },
+    {
+      "path": "app/core/config.py",
+      "accessCount": 9,
+      "lastAccessed": 1777109510096,
+      "type": "file"
+    },
+    {
+      "path": "app/core/database.py",
+      "accessCount": 8,
+      "lastAccessed": 1777108787380,
+      "type": "file"
+    },
+    {
+      "path": "app/services/rerank_service.py",
+      "accessCount": 6,
+      "lastAccessed": 1777109002573,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_image_migration.py",
+      "accessCount": 6,
+      "lastAccessed": 1777109510587,
+      "type": "file"
+    },
+    {
+      "path": "app/services/hybrid_search.py",
+      "accessCount": 5,
+      "lastAccessed": 1777102552041,
+      "type": "file"
+    },
+    {
+      "path": "app/models/recipe_image.py",
+      "accessCount": 5,
+      "lastAccessed": 1777109517621,
+      "type": "file"
+    },
+    {
       "path": "README.md",
+      "accessCount": 4,
+      "lastAccessed": 1777089300689,
+      "type": "file"
+    },
+    {
+      "path": "Dockerfile",
+      "accessCount": 4,
+      "lastAccessed": 1777100804851,
+      "type": "file"
+    },
+    {
+      "path": "app/models/__init__.py",
+      "accessCount": 4,
+      "lastAccessed": 1777104881679,
+      "type": "file"
+    },
+    {
+      "path": "scripts/seed_data_sqlite.py",
+      "accessCount": 4,
+      "lastAccessed": 1777108363511,
+      "type": "file"
+    },
+    {
+      "path": "app/api/v1/search.py",
+      "accessCount": 3,
+      "lastAccessed": 1777102478750,
+      "type": "file"
+    },
+    {
+      "path": "tests/test_e2e.py",
+      "accessCount": 3,
+      "lastAccessed": 1777103996594,
+      "type": "file"
+    },
+    {
+      "path": "app/main.py",
+      "accessCount": 3,
+      "lastAccessed": 1777104935500,
+      "type": "file"
+    },
+    {
+      "path": "app/models/recipe.py",
+      "accessCount": 3,
+      "lastAccessed": 1777108394928,
+      "type": "file"
+    },
+    {
+      "path": "tests/conftest.py",
+      "accessCount": 3,
+      "lastAccessed": 1777109537383,
+      "type": "file"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-04-25-frontend-design.md",
+      "accessCount": 2,
+      "lastAccessed": 1777090901012,
+      "type": "file"
+    },
+    {
+      "path": "screenshot-home.png",
+      "accessCount": 2,
+      "lastAccessed": 1777095876078,
+      "type": "file"
+    },
+    {
+      "path": "screenshot-search.png",
+      "accessCount": 2,
+      "lastAccessed": 1777095880093,
+      "type": "file"
+    },
+    {
+      "path": "screenshot-detail.png",
+      "accessCount": 2,
+      "lastAccessed": 1777095885039,
+      "type": "file"
+    },
+    {
+      "path": "app/models/ingredient.py",
+      "accessCount": 2,
+      "lastAccessed": 1777105026682,
+      "type": "file"
+    },
+    {
+      "path": "app/models/step.py",
+      "accessCount": 2,
+      "lastAccessed": 1777105188414,
+      "type": "file"
+    },
+    {
+      "path": "app/api/schemas.py",
+      "accessCount": 2,
+      "lastAccessed": 1777108371087,
+      "type": "file"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-25-recipe-image-migration.md",
+      "accessCount": 2,
+      "lastAccessed": 1777108625958,
+      "type": "file"
+    },
+    {
+      "path": "screenshot-cook-clean.png",
       "accessCount": 1,
-      "lastAccessed": 1776693456553,
+      "lastAccessed": 1777095885257,
+      "type": "file"
+    },
+    {
+      "path": "home-page.png",
+      "accessCount": 1,
+      "lastAccessed": 1777096119590,
+      "type": "file"
+    },
+    {
+      "path": "search-page.png",
+      "accessCount": 1,
+      "lastAccessed": 1777096119651,
+      "type": "file"
+    },
+    {
+      "path": "detail-page.png",
+      "accessCount": 1,
+      "lastAccessed": 1777096119819,
+      "type": "file"
+    },
+    {
+      "path": "cook-page.png",
+      "accessCount": 1,
+      "lastAccessed": 1777096119915,
+      "type": "file"
+    },
+    {
+      "path": "requirements.txt",
+      "accessCount": 1,
+      "lastAccessed": 1777100728862,
+      "type": "file"
+    },
+    {
+      "path": "render.yaml",
+      "accessCount": 1,
+      "lastAccessed": 1777100742663,
+      "type": "file"
+    },
+    {
+      "path": "app/services/embedding_service.py",
+      "accessCount": 1,
+      "lastAccessed": 1777101396565,
+      "type": "file"
+    },
+    {
+      "path": "app/services/clip_service.py",
+      "accessCount": 1,
+      "lastAccessed": 1777101396841,
+      "type": "file"
+    },
+    {
+      "path": "scripts/seed_data.py",
+      "accessCount": 1,
+      "lastAccessed": 1777101679068,
+      "type": "file"
+    },
+    {
+      "path": "docker-compose.yml",
+      "accessCount": 1,
+      "lastAccessed": 1777102120043,
+      "type": "file"
+    },
+    {
+      "path": "app/models/user.py",
+      "accessCount": 1,
+      "lastAccessed": 1777102156921,
+      "type": "file"
+    },
+    {
+      "path": "app/api/routes.py",
+      "accessCount": 1,
+      "lastAccessed": 1777102368308,
+      "type": "file"
+    },
+    {
+      "path": "app/services/es_search.py",
+      "accessCount": 1,
+      "lastAccessed": 1777102486519,
+      "type": "file"
+    },
+    {
+      "path": "app/services/rrf_fusion.py",
+      "accessCount": 1,
+      "lastAccessed": 1777102737124,
+      "type": "file"
+    },
+    {
+      "path": "app/models/rerank_model.py",
+      "accessCount": 1,
+      "lastAccessed": 1777102781970,
+      "type": "file"
+    },
+    {
+      "path": "app/api/v1/favorites.py",
+      "accessCount": 1,
+      "lastAccessed": 1777103869253,
+      "type": "file"
+    },
+    {
+      "path": "app/models/favorite.py",
+      "accessCount": 1,
+      "lastAccessed": 1777103875366,
+      "type": "file"
+    },
+    {
+      "path": "app/api/v1/images.py",
+      "accessCount": 1,
+      "lastAccessed": 1777104411802,
+      "type": "file"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-04-25-recipe-image-migration-design.md",
+      "accessCount": 1,
+      "lastAccessed": 1777106895841,
       "type": "file"
     }
   ],

@@ -47,6 +47,8 @@ class HybridSearch:
         self.top_n = top_n
         self.rerank_top_k = rerank_top_k
         self.use_rerank = use_rerank
+        self._es_available = True
+        self._qdrant_available = False  # always disabled in local mode
 
     async def search(
         self,
@@ -118,15 +120,70 @@ class HybridSearch:
         query: str,
         filters: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
-        """执行 ES 搜索."""
-        es_results = await self.es_service.search(query, filters, size=self.top_n)
-        # 将 ES 结果转换为统一格式（包含 payload 字段）
-        # 注意：ES 返回的结果中 id 字段可能不存在，需要从 payload 中获取
+        """执行 ES 搜索，失败时回退到 SQLite."""
+        if not self._es_available:
+            return await self._sqlite_search(query, filters)
+        try:
+            es_results = await self.es_service.search(query, filters, size=self.top_n)
+            self._es_available = True
+        except Exception:
+            self._es_available = False
+            return await self._sqlite_search(query, filters)
+        # 将 ES 结果转换为统一格式
         results = []
         for r in es_results:
             recipe_id = r.get("id") or r.get("recipe_id") or ""
             results.append({"recipe_id": recipe_id, "score": 0.0, "payload": r})
         return results
+
+    async def _sqlite_search(
+        self,
+        query: str,
+        filters: Optional[Dict[str, Any]] = None,
+    ) -> List[Dict[str, Any]]:
+        """SQLite 回退搜索 — 对 name / description / tags 做 LIKE 查询."""
+        try:
+            from app.core.database import AsyncSessionLocal
+            from app.models.recipe import Recipe
+            from sqlalchemy import or_, select
+        except Exception:
+            return []
+
+        async with AsyncSessionLocal() as session:
+            conditions = [
+                Recipe.name.like(f"%{query}%"),
+                Recipe.description.like(f"%{query}%"),
+                Recipe.tags.like(f"%{query}%"),
+            ]
+            stmt = (
+                select(Recipe)
+                .where(Recipe.is_public == True, or_(*conditions))
+                .order_by(Recipe.view_count.desc())
+                .limit(self.top_n)
+            )
+            result = await session.execute(stmt)
+            recipes = result.scalars().all()
+
+            results = []
+            for recipe in recipes:
+                score = 1.0
+                if query.lower() in (recipe.name or "").lower():
+                    score = 2.0
+                results.append({
+                    "recipe_id": str(recipe.id),
+                    "score": score,
+                    "payload": {
+                        "id": str(recipe.id),
+                        "name": recipe.name,
+                        "description": recipe.description,
+                        "cuisine": recipe.cuisine,
+                        "difficulty": recipe.difficulty,
+                        "prep_time": recipe.prep_time,
+                        "cook_time": recipe.cook_time,
+                        "tags": recipe.tags,
+                    },
+                })
+            return results
 
     async def _search_qdrant(
         self,

@@ -8,6 +8,7 @@ from fastapi import FastAPI, HTTPException, Request, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 
 from loguru import logger
@@ -104,6 +105,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 挂载 HowToCook 本地图片静态目录
+import os as _os
+_howtocook_images = _os.path.join(_os.path.dirname(__file__), "..", "data", "howtocook", "public", "images")
+if _os.path.isdir(_howtocook_images):
+    app.mount("/howtocook-images", StaticFiles(directory=_howtocook_images), name="howtocook-images")
 
 
 # 请求日志中间件

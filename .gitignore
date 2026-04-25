@@ -69,6 +69,13 @@ docker-compose.override.yml
 # Playwright MCP
 .playwright-mcp/
 
+# oh-my-claudecode internal state
+.omc/sessions/
+.omc/state/
+
+# External cloned repos
+data/howtocook/
+
 # Test files
 tests/web_demo.html
 start_sqlite.py

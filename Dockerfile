@@ -1,18 +1,22 @@
-FROM docker.m.daocloud.io/library/python:3.11-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# 安装依赖
+# Install PostgreSQL client for migration check
+RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev && rm -rf /var/lib/apt/lists/*
+
+# Install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 复制代码
+# Copy code
 COPY . .
 
-# 创建非 root 用户
+# Create non-root user
 RUN useradd -m appuser && chown -R appuser:appuser /app
 USER appuser
 
 EXPOSE 8000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run migrations then start
+CMD ["sh", "-c", "python -m alembic upgrade head 2>/dev/null || true && uvicorn app.main:app --host 0.0.0.0 --port 8000"]

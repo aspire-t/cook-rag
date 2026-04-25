@@ -45,6 +45,7 @@ def rrf(
                 "recipe_id": recipe_id,
                 "es_rank": rank,
                 "es_score": result.get("score", 0),
+                "payload": result.get("payload", {}),
             }
 
     # 计算 Qdrant 结果的 RRF 分数
@@ -62,6 +63,7 @@ def rrf(
                 "recipe_id": recipe_id,
                 "qdrant_rank": rank,
                 "qdrant_score": result.get("score", 0),
+                "payload": result.get("payload", {}),
             }
         else:
             # 更新已有记录
@@ -86,6 +88,7 @@ def rrf(
             "es_score": info.get("es_score"),
             "qdrant_rank": info.get("qdrant_rank"),
             "qdrant_score": info.get("qdrant_score"),
+            "payload": info.get("payload", {}),
         })
 
     return fused_results

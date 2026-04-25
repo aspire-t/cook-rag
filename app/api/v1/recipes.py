@@ -10,6 +10,8 @@ from app.core.database import get_db
 from app.models.recipe import Recipe
 from app.models.ingredient import RecipeIngredient
 from app.models.step import RecipeStep
+from app.models.recipe_image import RecipeImage
+from app.services.image_url_builder import build_fallback_image_url
 
 router = APIRouter()
 
@@ -25,7 +27,6 @@ class StepItem(BaseModel):
     step_no: int
     description: str
     duration_seconds: Optional[int] = None
-    image_url: Optional[str] = None
 
 
 class RecipeDetailResponse(BaseModel):
@@ -102,14 +103,9 @@ async def get_recipe_detail(
         await db.commit()
 
         # 查询图片
-        from app.models.recipe_image import RecipeImage
-        from app.services.image_url_builder import build_fallback_image_url
-        import uuid as _uuid
-
-        recipe_uuid = _uuid.UUID(recipe_id)
         images_result = await db.execute(
             select(RecipeImage)
-            .where(RecipeImage.recipe_id == recipe_uuid)
+            .where(RecipeImage.recipe_id == recipe.id)
             .order_by(RecipeImage.step_no.nullsfirst(), RecipeImage.id)
         )
         images = images_result.scalars().all()

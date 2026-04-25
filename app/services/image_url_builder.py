@@ -12,7 +12,7 @@ def build_image_url(source_path: str) -> str:
     Returns:
         GitHub Pages CDN URL
     """
-    return settings.HOWTOCOOK_IMAGE_BASE_URL + source_path
+    return f"{settings.HOWTOCOOK_IMAGE_BASE_URL}{source_path}"
 
 
 def build_fallback_image_url(source_path: str) -> str:

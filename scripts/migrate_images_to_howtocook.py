@@ -16,8 +16,16 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy import text
 
 IMAGES_DIR = Path(__file__).parent.parent / "data" / "howtocook" / "public" / "images"
-GITHUB_PAGES_BASE = "https://king-jingxiang.github.io/HowToCook/images/dishes/"
-DB_URL = "sqlite+aiosqlite:///./cookrag.db"
+DB_URL = os.environ.get("MIGRATION_DATABASE_URL", "sqlite+aiosqlite:///./cookrag.db")
+
+
+def get_github_pages_base():
+    """获取 GitHub Pages CDN URL，优先使用 config，回退硬编码值."""
+    try:
+        from app.core.config import settings
+        return settings.HOWTOCOOK_IMAGE_BASE_URL
+    except Exception:
+        return "https://king-jingxiang.github.io/HowToCook/images/dishes/"
 
 
 def build_image_index():
@@ -56,10 +64,11 @@ async def migrate_images():
                 rows = rows.fetchall()
                 print(f"待迁移图片: {len(rows)} 条记录")
 
+                github_pages_base = get_github_pages_base()
                 for row in rows:
                     img_id, source_path, old_url = row
                     if source_path in image_index:
-                        new_url = GITHUB_PAGES_BASE + source_path
+                        new_url = github_pages_base + source_path
                         await session.execute(
                             text("UPDATE recipe_images SET image_url = :url WHERE id = :id"),
                             {"url": new_url, "id": str(img_id)},

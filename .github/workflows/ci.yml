@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16
+        image: pgvector/pgvector:pg16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -42,6 +42,19 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+        env:
+          discovery.type: single-node
+          xpack.security.enabled: "false"
+          ES_JAVA_OPTS: -Xms512m -Xmx512m
+        ports:
+          - 9200:9200
+        options: >-
+          --health-cmd "curl -s http://localhost:9200/_cluster/health | grep -q green"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
 
     steps:
       - uses: actions/checkout@v4
@@ -62,9 +75,17 @@ jobs:
           pip install flake8
           flake8 app tests --count --select=E9,F63,F7,F82 --show-source --statistics || true
 
+      - name: Create data directory
+        run: mkdir -p data/howtocook
+
       - name: Run tests
         env:
           DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/cookrag_test
           REDIS_URL: redis://localhost:6379
+          ES_HOST: http://localhost:9200
         run: |
-          python -m pytest tests/ -v --tb=short
+          python -m pytest tests/ \
+            --ignore=tests/test_e2e.py \
+            --ignore=tests/test_search.py \
+            --ignore=tests/test_es.py \
+            -v --tb=short

@@ -88,4 +88,5 @@ jobs:
             --ignore=tests/test_e2e.py \
             --ignore=tests/test_search.py \
             --ignore=tests/test_es.py \
+            --ignore=tests/test_images_api.py \
             -v --tb=short

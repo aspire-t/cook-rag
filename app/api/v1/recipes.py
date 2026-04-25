@@ -29,6 +29,12 @@ class StepItem(BaseModel):
     duration_seconds: Optional[int] = None
 
 
+class StepImageResponse(BaseModel):
+    step_no: Optional[int] = None
+    url: str
+    fallback_url: Optional[str] = None
+
+
 class RecipeDetailResponse(BaseModel):
     id: str
     name: str
@@ -45,7 +51,7 @@ class RecipeDetailResponse(BaseModel):
     rating: Optional[float] = None
     cover_image: Optional[str] = None
     cover_fallback_url: Optional[str] = None
-    step_images: List[dict] = []
+    step_images: List[StepImageResponse] = []
 
 
 @router.get("/{recipe_id}", response_model=RecipeDetailResponse)
@@ -119,12 +125,12 @@ async def get_recipe_detail(
                 cover_image = img.image_url
                 cover_fallback = fallback
             else:
-                step_images.append({
-                    "step_no": img.step_no,
-                    "url": img.image_url,
-                    "fallback_url": fallback,
-                })
-        step_images.sort(key=lambda x: x["step_no"] or 0)
+                step_images.append(StepImageResponse(
+                    step_no=img.step_no,
+                    url=img.image_url,
+                    fallback_url=fallback,
+                ))
+        step_images.sort(key=lambda x: x.step_no or 0)
 
         return RecipeDetailResponse(
             id=str(recipe.id),

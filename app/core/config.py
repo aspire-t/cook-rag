@@ -69,6 +69,8 @@ class Settings(BaseSettings):
     MAX_CONVERSATION_HISTORY: int = 20  # 最大历史消息数
 
     # Image Storage
+    HOWTOCOOK_IMAGE_BASE_URL: str = "https://king-jingxiang.github.io/HowToCook/images/dishes/"
+    IMAGE_FALLBACK_BASE: str = "/howtocook-images/dishes/"  # local static mount fallback
     IMAGE_REPO_NAME: str = "cook-rag-images"  # GitHub 图片仓库名
     IMAGE_REPO_OWNER: str = "aspire-t"  # GitHub 用户名
     IMAGE_BASE_CDN_URL: str = "https://cdn.jsdelivr.net/gh/aspire-t/cook-rag-images@main/"

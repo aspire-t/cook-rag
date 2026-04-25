@@ -47,13 +47,13 @@ class HybridSearch:
         self.top_n = top_n
         self.rerank_top_k = rerank_top_k
         self.use_rerank = use_rerank
-        self.rerank_service = get_rerank_service()
 
     async def search(
         self,
         query: str,
         filters: Optional[Dict[str, Any]] = None,
         use_hybrid: bool = True,
+        use_rerank: bool = True,
         user_prefs: Optional[Dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
         """
@@ -63,6 +63,7 @@ class HybridSearch:
             query: 搜索关键词
             filters: 过滤条件
             use_hybrid: 是否使用混合检索（否则只用 ES）
+            use_rerank: 是否使用 Rerank 重排序
             user_prefs: 用户偏好（用于 Rerank）
 
         Returns:
@@ -71,8 +72,7 @@ class HybridSearch:
         if use_hybrid:
             results = await self._hybrid_search(query, filters)
 
-            # 启用 Rerank 且有用户偏好时，进行重排序
-            if self.use_rerank and results:
+            if use_rerank and self.use_rerank and results:
                 results = await self._rerank_results(query, results, user_prefs)
 
             return results[:self.top_n]

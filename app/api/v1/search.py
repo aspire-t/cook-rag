@@ -79,6 +79,7 @@ async def search_recipes(
             query=request.query,
             filters=request.filters,
             use_hybrid=request.use_hybrid,
+            use_rerank=request.use_rerank,
             user_prefs=current_user.taste_prefs if current_user else None,
         )
 
